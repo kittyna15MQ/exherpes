@@ -1,0 +1,18 @@
+# Copyright 2009 Nathan McSween <nathan.mcsween@gmx.com>
+# Distributed under the terms of the GNU General Public License v2
+
+HOMEPAGE="http://www.hpl.hp.com/research/linux/httperf"
+SUMMARY="A flexible HTTP workload generator for measuring server performance"
+DOWNLOADS="listed-only: ftp://ftp.hpl.hp.com/pub/${PN}/${PNVR}.tar.gz"
+
+LICENCES="GPL-2"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
+DEPENDENCIES=""
+
+DEFAULT_SRC_CONFIGURE_PARAMS=(
+    --bindir=/usr/bin
+    --docdir=/usr/share/doc/"${PNVR}"
+)
