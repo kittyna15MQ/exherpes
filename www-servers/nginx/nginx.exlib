@@ -4,10 +4,8 @@
 
 require multilib
 
-export_exlib_phases src_prepare src_install
-
+export_exlib_phases src_configure src_install
 myexparam nginx_modules[]
-
 exparam -v NGINX_MODULES nginx_modules[@]
 
 SUMMARY="A small and fast HTTP server"
@@ -19,60 +17,80 @@ DOWNLOADS="http://sysoev.ru/nginx/${PNV}.tar.gz"
 LICENCES="BSD-2"
 SLOT="0"
 MYOPTIONS="
-    ipv6
     nginx_modules: ${NGINX_MODULES[*]}
 "
 
 DEPENDENCIES="
     build+run:
-        users/nginx
+        user/nginx
         group/nginx
         dev-libs/pcre
 "
 
-BUGS_TO="dontbugme.com"
+BUGS_TO="0bfuscate@gmx.com"
 
 REMOTE_IDS="freshmeat:${PN}"
 
 UPSTREAM_CHANGELOG="http://nginx.net/CHANGES"
 UPSTREAM_DOCUMENTATION="http://wiki.nginx.org/Main"
 
-DEFAULT_SRC_CONFIGURE_PARAMS=(
-    # OSS special olympics directory layout award.
-    # Layout
-    #--prefix=/usr
-    #--conf-path= /etc/nginx/nginx.conf
-    #--pid-path=/var/run/nginx.pid
-    #--lock-path=/var/lock/nginx.lock
-    --error-log-path=/var/log/nginx/error.log
-    --http-log-path=/var/log/nginx/access.log
-    --user=nginx
-    --group=nginx
-    --http-client-body-temp-path=/var/tmp/nginx/client
-    --http-proxy-temp-path=/var/tmp/nginx/proxy
-    --http-fastcgi-temp-path=/var/tmp/nginx/fastcgi
-)
+DEFAULT_SRC_CONFIGURE_PARAMS=()
+DEFAULT_SRC_CONFIGURE_OPTION_WITHS=()
 
-DEFAULT_SRC_CONFIGURE_OPTION_WITHS=(
-    file-aio
-    'ipv6 ipv6'
-    fix-module-names ${NGINX_MODULES[@]}
-)
+nginx_src_configure() {
+    # Bypass nginx configure.
+cat <<EOF >> "${WORK}/auto/options"
+NGX_PREFIX=/usr NGX_SBIN_PATH=/usr/sbin/nginx
+NGX_CONF_PATH=/etc/nginx/nginx.conf
+NGX_ERROR_LOG_PATH=/var/log/nginx/error.log
+NGX_PID_PATH=/var/run/nginx/nginx.pid
+NGX_LOCK_PATH=/var/lock/nginx.lock
+NGX_USER=nginx NGX_GROUP=nginx
+NGX_FILE_AIO=YES
+HTTP=YES
+NGX_HTTP_LOG_PATH=/var/log/nginx/access.log
+NGX_HTTP_CLIENT_TEMP_PATH=/var/tmp/nginx/client
+NGX_HTTP_PROXY_TEMP_PATH=/var/tmp/nginx/proxy
+NGX_HTTP_FASTCGI_TEMP_PATH=/var/tmp/nginx/fastcgi
+USE_PCRE=YES
+EOF
+
+    # Add NGINX_MODULES options to auto/options/
+    for s in ${NGINX_MODULES[@]}; do
+        if optionq nginx_modules:${s}; then
+            name=$(option-name $s)
+            echo ${name^^}=YES >> ${WORK}/auto/options
+        else
+            name=$(option-name $s)
+            echo ${name^^}=NO >> ${WORK}/auto/options
+        fi
+    done
+    ${WORK}/configure
+}
 
 nginx_src_install() {
     default
-
-    dodir /var/{tmp,log}/nginx /srv/localhost/nginx/default/{public,private}
-    keepdir /srv/localhost/nginx /var/{tmp,log}/nginx
-    fowners nginx:nginx /var/{tmp,log}/nginx /srv/localhost/nginx
-    newconfd "${FILES}"/nginx.confd nginx
-    newinitd "${FILES}"/nginx.initd nginx
+    rm -r ${IMAGE}/usr/html
+    keepdir /srv/localhost/${CATEGORY}/${PN} /var/{log,run,tmp}/${PN}
+    fowners nginx:nginx /var/{log,run,tmp}/${PN} /srv/localhost/${CATEGORY}/${PN}
+    newinitd ${FILES}/nginx.initd nginx
+    insinto /etc/nginx
+    doins ${FILES}/nginx.conf
 }
-# Add http_ and _module to each NGINS_MODULE[] element and return
-fix-module-names() {
-    for i in "@"; do
-        i="${i/#/http_}"
-        i="${i/%/_module}"
-        echo $i
-    done
+
+option-name() {
+    case $1 in
+    'mail'|'mail_ssl'|'mail_pop3'|'mail_imap'|'mail_smtp')
+        echo $1
+    ;;
+    'perl'|'libxlst')
+        echo USE_${1}
+    ;;
+    'ssl')
+        echo USE_OPEN${1}
+    ;;
+    *)
+        echo HTTP_${1}
+    ;;
+esac
 }
