@@ -1,0 +1,29 @@
+# Copyright 2008, 2009 Nathan McSweem <obfuscte@gmx.com>
+# Distributed under the terms of the GNU General Public License v2
+
+require nginx [ \
+    nginx_modules=[
+        charset gzip ssi user_id access auth_basic auto_index geo map referer \
+        rewrite proxy fastcgi memcached limit_zone limit_req empty_gif \
+        browser upstream_ip_hash \
+        ssl realip addition xlst geoip sub dav flv gzip_static \
+        random_index secure_link stub_status perl \
+        mail mail_ssl mail_pop3 mail_imap mail_smtp \
+   ] \
+]
+
+PLATFORMS="~amd64"
+MYOPTIONS="
+    nginx_modules:
+        ( mail_ssl mail_pop3 mail_imap mail_smtp ) [[ requires = [ nginx_modules: mail ] ]]
+"
+
+DEPENDENCIES="
+    build+run:
+        nginx_modules:gzip? ( app-arch/gzip )
+        nginx_modules:gzip_static? ( app-arch/gzip )
+        nginx_modules:perl? ( dev-lang/perl )
+        nginx_modules:geoip? ( net-libs/geoip )
+        nginx_modules:ssl? ( dev-libs/openssl )
+        nginx_modules:mail_ssl? ( dev-libs/openssl )
+"

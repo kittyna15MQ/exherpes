@@ -1,0 +1,78 @@
+# Copyright 2009 Nathan McSween <0bfuscate@gmx.com>
+# Distributed under the terms of the GNU General Public License v2
+# Some shamelessly stolen from apache.exlib::arbor
+
+require multilib
+
+export_exlib_phases src_prepare src_install
+
+myexparam nginx_modules[]
+
+exparam -v NGINX_MODULES nginx_modules[@]
+
+SUMMARY="A small and fast HTTP server"
+DESCRIPTION="
+"
+HOMEPAGE="http://nginx.net/"
+DOWNLOADS="http://sysoev.ru/nginx/${PNV}.tar.gz"
+
+LICENCES="BSD-2"
+SLOT="0"
+MYOPTIONS="
+    ipv6
+    nginx_modules: ${NGINX_MODULES[*]}
+"
+
+DEPENDENCIES="
+    build+run:
+        users/nginx
+        group/nginx
+        dev-libs/pcre
+"
+
+BUGS_TO="dontbugme.com"
+
+REMOTE_IDS="freshmeat:${PN}"
+
+UPSTREAM_CHANGELOG="http://nginx.net/CHANGES"
+UPSTREAM_DOCUMENTATION="http://wiki.nginx.org/Main"
+
+DEFAULT_SRC_CONFIGURE_PARAMS=(
+    # OSS special olympics directory layout award.
+    # Layout
+    #--prefix=/usr
+    #--conf-path= /etc/nginx/nginx.conf
+    #--pid-path=/var/run/nginx.pid
+    #--lock-path=/var/lock/nginx.lock
+    --error-log-path=/var/log/nginx/error.log
+    --http-log-path=/var/log/nginx/access.log
+    --user=nginx
+    --group=nginx
+    --http-client-body-temp-path=/var/tmp/nginx/client
+    --http-proxy-temp-path=/var/tmp/nginx/proxy
+    --http-fastcgi-temp-path=/var/tmp/nginx/fastcgi
+)
+
+DEFAULT_SRC_CONFIGURE_OPTION_WITHS=(
+    file-aio
+    'ipv6 ipv6'
+    fix-module-names ${NGINX_MODULES[@]}
+)
+
+nginx_src_install() {
+    default
+
+    dodir /var/{tmp,log}/nginx /srv/localhost/nginx/default/{public,private}
+    keepdir /srv/localhost/nginx /var/{tmp,log}/nginx
+    fowners nginx:nginx /var/{tmp,log}/nginx /srv/localhost/nginx
+    newconfd "${FILES}"/nginx.confd nginx
+    newinitd "${FILES}"/nginx.initd nginx
+}
+# Add http_ and _module to each NGINS_MODULE[] element and return
+fix-module-names() {
+    for i in "@"; do
+        i="${i/#/http_}"
+        i="${i/%/_module}"
+        echo $i
+    done
+}
