@@ -1,8 +1,0 @@
-charset gzip ssi user_id access auth_basic auto_index geo map referer
-rewrite
-proxy fastcgi memcached limit_zone limit_req empty_gif browser
-upstream_ip_hash
-realip addition geoip sub dav flv gzip_static random_index secure_link
-stub_status
-perl ssl libxlst
-mail mail_ssl mail_pop3 mail_imap mail_smtp

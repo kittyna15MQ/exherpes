@@ -7,7 +7,7 @@ not been accessed in a specified period of time. tmpwatch is normally used to cl
 which are used for temporarily holding files (for example, /tmp). 
 "
 HOMEPAGE="http://fedorahosted.org/tmpwatch/"
-DOWNLOADS="https://fedorahosted.org/releases/t/m/${PNV}.tar.bz2"
+DOWNLOADS="https://fedorahosted.org/releases/t/m/${PN}/${PNVR}.tar.bz2"
 
 LICENCES="GPL-2"
 SLOT="0"
@@ -31,5 +31,6 @@ src_prepare() {
 }
 
 src_install() {
-
+    dosbin tmpwatch || die "Error: couldn't dosbin"
+    doman tmpwatch.8 || die "Error: couldn't doman"
 }

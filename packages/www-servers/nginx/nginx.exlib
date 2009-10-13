@@ -43,7 +43,7 @@ cat <<EOF >> "${WORK}/auto/options"
 NGX_PREFIX=/usr NGX_SBIN_PATH=/usr/sbin/nginx
 NGX_CONF_PATH=/etc/nginx/nginx.conf
 NGX_ERROR_LOG_PATH=/var/log/nginx/error.log
-NGX_PID_PATH=/var/run/nginx/nginx.pid
+NGX_PID_PATH=/var/run/nginx.pid
 NGX_LOCK_PATH=/var/lock/nginx.lock
 NGX_USER=nginx NGX_GROUP=nginx
 NGX_FILE_AIO=YES
@@ -65,17 +65,17 @@ EOF
             echo ${name^^}=NO >> ${WORK}/auto/options
         fi
     done
-    ${WORK}/configure
+    "${WORK}"/configure
 }
 
 nginx_src_install() {
     default
-    rm -r ${IMAGE}/usr/html
-    keepdir /srv/localhost/${CATEGORY}/${PN} /var/{log,run,tmp}/${PN}
-    fowners nginx:nginx /var/{log,run,tmp}/${PN} /srv/localhost/${CATEGORY}/${PN}
-    newinitd ${FILES}/nginx.initd nginx
+    rm -r "${IMAGE}"/usr/html
+    keepdir /srv/localhost/"${CATEGORY}"/"${PN}" /var/log/"${PN}"
+    fowners nginx:nginx /srv/localhost/"${CATEGORY}"/"${PN}"
+    newinitd "${FILES}"/nginx.init nginx
     insinto /etc/nginx
-    doins ${FILES}/nginx.conf
+    doins "${FILES}"/nginx.conf
 }
 
 option-name() {
