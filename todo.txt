@@ -1,0 +1,13 @@
+www-servers/nginx 
+  - add license to headers.
+  - stab creator
+metadata/options/descriptions/nginx_modules.conf
+  - order by name instead of by nginx main/optional / name (latter makes more
+    sense).
+sys-security/samhain
+  - add more options
+  - stab creator
+app-admin/rsyslog
+  - dump? due to creator not understanding threading / bugs?
+
+Add ceph utilities, add new keychain in github

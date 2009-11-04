@@ -1,0 +1,137 @@
+# Copyright 2009 Ingmar Vanhassel
+# Distributed under the terms of the GNU General Public License v2
+
+require multilib
+
+export_exlib_phases src_prepare src_install
+
+myexparam apache_modules[]
+
+exparam -v APACHE_MODULES apache_modules[@]
+
+PV2=$(ever range 1-2)
+
+SUMMARY="An open-source HTTP server"
+DESCRIPTION="
+The Apache HTTP Server Project is an effort to develop and maintain an
+open-source HTTP server for modern operating systems including UNIX and Windows
+NT. The goal of this project is to provide a secure, efficient and extensible
+server that provides HTTP services in sync with the current HTTP standards.
+Apache has been the most popular web server on the Internet since April 1996.
+"
+HOMEPAGE="http://httpd.apache.org"
+DOWNLOADS="mirror://apache/httpd/httpd-${PV}.tar.bz2"
+
+UPSTREAM_CHANGELOG="
+http://www.apache.org/dist/httpd/CHANGES_${PV}  [[ note = [ ChangeLog for ${PV} ] ]]
+http://www.apache.org/dist/httpd/CHANGES_${PV2} [[ note = [ Complete ChangeLog for ${PV2} ] ]]
+"
+UPSTREAM_DOCUMENTATION="
+${HOMEPAGE}/docs/${PV2}/
+"
+UPSTREAM_RELEASE_NOTES="http://httpd.apache.org/docs/${PV2}/new_features_${PV2//./_}.html"
+
+LICENCES="Apache-2.0"
+SLOT="0"
+MYOPTIONS="ssl
+    apache_modules: ${APACHE_MODULES[*]}
+"
+
+# configure.in checks net-misc/rsync, not sure why
+DEPENDENCIES="
+    build:
+        dev-util/pkg-config
+    build+run:
+        dev-libs/apr:1[>=1.2.0]
+        dev-libs/apr-util:1[>=1.2.0]
+        dev-libs/pcre
+        group/apache
+        user/apache
+        || (
+            net-www/links
+            net-www/elinks
+            net-www/lynx
+        )
+        ssl? ( dev-libs/openssl )
+"
+
+WORK="${WORKBASE}/httpd-${PV}"
+
+DEFAULT_SRC_CONFIGURE_PARAMS=(
+    --enable-layout=Exherbo
+    --enable-so
+
+    --datadir=/usr/share/apache2
+    --includedir=/usr/include/apache2
+    --localstatedir=/var
+    --sysconfdir=/etc/apache2
+
+    --without-included-apr
+    # Use external pcre, --without-pcre enables an internal copy
+    --with-pcre
+    --with-mpm=event
+)
+DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
+    "${APACHE_MODULES[@]/#/apache_modules:}"
+)
+DEFAULT_SRC_CONFIGURE_OPTION_WITHS=( ssl )
+
+apache_src_prepare() {
+    default
+    add-exherbo-layout
+}
+
+apache_src_install() {
+    default
+
+    keepdir /var/lib/dav /var/{cache,log,run}/apache2
+    fowners apache:apache /var/lib/dav /var/{cache,log,run}/apache2
+    fperms 0755 /var/lib/dav /var/{cache,log,run}/apache2
+
+    rm -r "${IMAGE}"/etc/apache2/original || die "Failed to remove duplicate config files"
+    # rm -r "${IMAGE}"/usr/share/apache2/build || die "Removing junk failed"
+
+    find "${IMAGE}"/usr/share/doc/${PNVR}/manual/ -type d -empty -delete ||
+        die "Couldn't remove empty directories under /usr/share/manual/"
+
+    newconfd "${FILES}"/apache-confd apache2
+    newinitd "${FILES}"/apache-initd apache2
+
+    # Fix user/group.
+    sed -i -e "s:^\(.* \)daemon$:\1 ${PN}:" "${IMAGE}"/etc/apache2/httpd.conf
+
+    # Add modules.d config part.
+    cat "${FILES}"/apache-modules.d.conf >> "${IMAGE}"/etc/apache2/httpd.conf
+    keepdir /etc/apache2/modules.d
+}
+
+# Rather than trying to outsmart autoconf, we define our own layout, to get a
+# proper filesystem layout for apache.
+add-exherbo-layout() {
+    cat <<EOF >> "${WORK}/config.layout"
+# Exherbo layout
+<Layout Exherbo>
+    prefix:        /usr
+    exec_prefix:   \${prefix}
+    bindir:        \${exec_prefix}/bin
+    sbindir:       \${exec_prefix}/bin
+    libdir:        \${exec_prefix}/$(get_libdir)
+    libexecdir:    \${exec_prefix}/libexec/apache2/modules
+    mandir:        \${datadir}/man
+    sysconfdir:    /etc+
+    datadir:       \${datadir}
+    installbuilddir: \${datadir}/build
+    errordir:      \${datadir}/error
+    iconsdir:      \${datadir}/icons
+    htdocsdir:     /srv/www/htdocs
+    # this autoconf version doesn't know --docdir
+    manualdir:     /usr/share/doc/${PNVR}/manual
+    cgidir:        /srv/www/cgi-bin
+    includedir:    \${prefix}/include+
+    localstatedir: /var
+    runtimedir:    \${localstatedir}/run/apache2
+    logfiledir:    \${localstatedir}/log/apache2
+    proxycachedir: \${localstatedir}/proxy
+</Layout>
+EOF
+}

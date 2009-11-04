@@ -24,21 +24,10 @@ DEPENDENCIES="
 "
 
 DEFAULT_SRC_INSTALL_PARAMS=( docdir=/usr/share/doc/${PNVR} )
-DEFAULT_SRC_OPTION_ENABLES=( gnutls mysql postgresql )
+DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=( gnutls mysql postgresql )
 DEFAULT_SRC_CONFIGURE_PARAMS=( --disable-testbench )
 src_install() {
     default
-
-    case option in
-        mysql)
-            insinto /usr/share/doc/${PNVR}/scripts/mysql
-            doins "${WORK}/plugins/ommysql/createDB.sql"
-        ;;
-        postgresql)
-            insinto /usr/share/doc/${PNVR}/scripts/postgresql
-            doins "${WORK}/plugins/ompgsql/createDB.sql"
-        ;;
-    esac
 
     insinto /etc/
     doins "${WORK}"/rsyslog.conf

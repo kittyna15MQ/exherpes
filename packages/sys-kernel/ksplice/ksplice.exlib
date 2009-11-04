@@ -1,0 +1,25 @@
+
+
+SUMMARY="Rebootless kernel security updater"
+DESCRIPTION="
+Ksplice is practical technology for updating the Linux kernel without rebooting. It enables you to
+avoid the disruptive process of rebooting for kernel security updates and bugfixes. By making it
+easy to keep your systems up to date, Ksplice helps you avoid the security and stability risks of
+running out-of-date software.
+"
+HOMEPAGE="http://www.ksplice.com"
+REMOTE_IDS="freshmeat:ksplice"
+DOWNLOADS="${HOMEPAGE}/dist/${PNV}-src.tar.gz"
+
+LICENCES="GPL-2"
+SLOT="0"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    build+run:
+"
+
+BUGS_TO="0bfuscate@gmx.com"
+
+UPSTREAM_CHANGELOG="http://www.ksplice.com/changelog"
+UPSTREAM_DOCUMENTATION="http://www.ksplice.com/manpages"
