@@ -1,0 +1,38 @@
+
+
+SUMMARY="Prune old files from a given directory over time."
+DESCRIPTION="
+The tmpwatch utility recursively searches through specified directories and removes files which have
+not been accessed in a specified period of time. tmpwatch is normally used to clean up directories
+which are used for temporarily holding files (for example, /tmp). 
+"
+HOMEPAGE="http://fedorahosted.org/tmpwatch/"
+DOWNLOADS="https://fedorahosted.org/releases/t/m/${PN}/${PNVR}.tar.bz2"
+
+LICENCES="GPL-2"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    fetch:
+        app-misc/ca-certificates        
+    build:
+    build+run:
+"
+
+BUGS_TO="0bfuscate@gmx.com"
+
+src_prepare() {
+    sed -i -e "s:..RPM_OPT_FLAGS.:${CFLAGS}:" \
+        -e "s:^CVS:#CVS:g" Makefile \
+        || die "sed Makefile failed"
+    sed -i 's|/sbin/fuser|/bin/fuser|' tmpwatch.c \
+        || die "sed tmpwatch.c failed"
+    sed -i 's|/sbin|/bin|' tmpwatch.8 || die "sed tmpwatch.8 failed"
+}
+
+src_install() {
+    dosbin tmpwatch || die "Error: couldn't dosbin"
+    doman tmpwatch.8 || die "Error: couldn't doman"
+}
