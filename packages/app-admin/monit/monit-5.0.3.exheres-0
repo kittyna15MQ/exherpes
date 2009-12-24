@@ -33,3 +33,12 @@ src_prepare()
     # Don't strip
     edo sed -i '/^INSTALL_PROG/s/-s//' Makefile.in
 }
+
+src_install()
+{
+    insinto /etc
+    insopts -m0600
+    doins monitrc
+    #TODO
+    # Add monit initd
+}
