@@ -33,9 +33,6 @@ REMOTE_IDS="freshmeat:${PN}"
 UPSTREAM_CHANGELOG="http://nginx.net/CHANGES"
 UPSTREAM_DOCUMENTATION="http://wiki.nginx.org/Main"
 
-DEFAULT_SRC_CONFIGURE_PARAMS=()
-DEFAULT_SRC_CONFIGURE_OPTION_WITHS=()
-
 nginx_src_configure() {
 # Bypass nginx configure.
 cat <<EOF >> "${WORK}/auto/options"
