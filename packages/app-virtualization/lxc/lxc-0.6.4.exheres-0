@@ -1,3 +1,8 @@
+# Copyright 2010 Nathan McSween
+# Distributed under the terms of the GNU General Public License v2
+# Based in part upon 'lxc-0.6.3.ebuild' from Gentoo, which is:
+#     Copyright 1999-2008 Gentoo Foundation
+
 SUMMARY="Lightweight virtualization similar to openvz"
 DESCRIPTION="
 Containers provide lightweight virtualization that lets you isolate processes 
@@ -10,7 +15,6 @@ DOWNLOADS="mirror://sourceforge/${PN}/${PNV}.tar.gz"
 LICENCES="LGPL-3"
 SLOT="0"
 PLATFORMS="~amd64"
-MYOPTIONS=""
 
 DEPENDENCIES="
     build:
@@ -27,12 +31,11 @@ REMOTE_IDS="sourceforge:${PN}"
 DEFAULT_SRC_CONFIGURE_PARAMS=(
     --localstatedir=/var
     --bindir=/usr/sbin
-    --docdir=/doc/${PNV}
 )
+
 src_install() {
     default
 
     # Default documentation is examples, copy them to doc
-    cp "${IMAGE}"/etc/lxc/* "${IMAGE}"/usr/share/doc/"${PNV}" || \
-    die "Error copying samples to doc."
+    edo cp "${IMAGE}"/etc/lxc/* "${IMAGE}"/usr/share/doc/"${PNVR}"
 }

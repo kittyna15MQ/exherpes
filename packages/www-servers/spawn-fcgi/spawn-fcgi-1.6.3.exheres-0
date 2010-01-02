@@ -1,11 +1,10 @@
-# Copyright 2009 Nathan McSween <0bfuscate@gmx.com>
+# Copyright 2009 Nathan McSween
 # Distributed under the terms of the GNU General Public License v2
 # Based on spawn-fcgi which is: 
 # Copyright 1999-2009 Gentoo Foundation
 
 SUMMARY="A fastcgi process manager"
-DESCRIPTION="
-"
+
 HOMEPAGE="http://redmine.lighttpd.net/projects/spawn-fcgi"
 DOWNLOADS="http://www.lighttpd.net/download/"${PNVR}".tar.gz"
 
@@ -14,13 +13,8 @@ SLOT="0"
 PLATFORMS="~amd64"
 MYOPTIONS="ipv6"
 
-DEPENDENCIES="
-"
-
 BUGS_TO="0bfuscate@gmx.com"
 
-DEFAULT_SRC_CONFIGURE_PARAMS=( )
-DEFAULT_SRC_CONFIGURE_OPTION_WITHS=( )
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=( ipv6 )
 
 src_install() {

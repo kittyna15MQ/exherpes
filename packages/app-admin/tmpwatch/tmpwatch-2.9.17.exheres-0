@@ -1,4 +1,7 @@
-
+# Copyright 2008 Ciaran McCreesh
+# Distributed under the terms of the GNU General Public License v2
+# Based in part upon 'tmpwatch-2.9.16' from Gentoo, which is:
+#     Copyright 1999-2009 Gentoo Foundation
 
 SUMMARY="Prune old files from a given directory over time."
 DESCRIPTION="
@@ -12,27 +15,21 @@ DOWNLOADS="https://fedorahosted.org/releases/t/m/${PN}/${PNVR}.tar.bz2"
 LICENCES="GPL-2"
 SLOT="0"
 PLATFORMS="~amd64"
-MYOPTIONS=""
 
 DEPENDENCIES="
     fetch:
         app-misc/ca-certificates        
-    build:
-    build+run:
 "
 
 BUGS_TO="0bfuscate@gmx.com"
 
 src_prepare() {
-    sed -i -e "s:..RPM_OPT_FLAGS.:${CFLAGS}:" \
-        -e "s:^CVS:#CVS:g" Makefile \
-        || die "sed Makefile failed"
-    sed -i 's|/sbin/fuser|/bin/fuser|' tmpwatch.c \
-        || die "sed tmpwatch.c failed"
-    sed -i 's|/sbin|/bin|' tmpwatch.8 || die "sed tmpwatch.8 failed"
+    edo sed -i -e "s:..RPM_OPT_FLAGS.:${CFLAGS}:" -e "s:^CVS:#CVS:g" Makefile
+    edo sed -i 's|/sbin/fuser|/bin/fuser|' tmpwatch.c
+    edo sed -i 's|/sbin|/bin|' tmpwatch.8
 }
 
 src_install() {
-    dosbin tmpwatch || die "Error: couldn't dosbin"
-    doman tmpwatch.8 || die "Error: couldn't doman"
+    edo dosbin tmpwatch
+    edo doman tmpwatch.8
 }

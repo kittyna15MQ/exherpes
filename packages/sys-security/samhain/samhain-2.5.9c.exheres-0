@@ -1,4 +1,4 @@
-
+kefile
 SUMMARY="An advanced HIDS system"
 DESCRIPTION="
 The samhain open source host-based intrusion detection system (HIDS) provides file integrity
@@ -21,8 +21,6 @@ DEPENDENCIES="
 BUGS_TO=""
 
 DEFAULT_SRC_CONFIGURE_PARAMS=(
-    --localstatedir=/var
-
     --hates=docdir
     --hates=disable-dependency-tracking
     --hates=disable-silent-rules
@@ -39,19 +37,19 @@ DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=( )
 
 src_unpack() {
     default
-    tar -xf ${PNVR}.tar.gz
+    edo tar -xf ${PNVR}.tar.gz
 }
+
 src_prepare() {
-    sed -i /stripprog/d ${WORK}/samhain-install.sh
-    sed -i /stripcmd/d ${WORK}/samhain-install.sh
+    edo sed -i 's/-c -s/-c/' "${WORK}"/Makefile
 }
 
 src_install() {
-    sed -i 's/-c -s/-c/' "${WORK}"/Makefile
     default
-    rm -rf "${IMAGE}"/var/log
-    rm -rf "${IMAGE}"/var/run
-    rm -rf "${IMAGE}"/var/state
+
+    edo rm -rf "${IMAGE}"/var/log
+    edo rm -rf "${IMAGE}"/var/run
+    edo rm -rf "${IMAGE}"/var/state
 
     docinto scripts
     dodoc scripts/*

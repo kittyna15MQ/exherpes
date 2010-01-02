@@ -2,7 +2,12 @@
 # Distributed under the terms of the GNU General Public License v2
 
 SUMMARY="Rsyslog is a enhanced multi-threaded syslogd"
-DESCRIPTION="Rsyslog offers support for on-demand disk buffering, reliable syslog over TCP, SSL, TLS, and RELP, writing to databases (MySQL, PostgreSQL, Oracle, and many more), email alerting, fully configurable output formats (including high-precision timestamps), the ability to filter on any part of the syslog message, on-the-wire message compression, and the ability to convert text files to syslog"
+DESCRIPTION="Rsyslog offers support for on-demand disk buffering, reliable 
+syslog over TCP, SSL, TLS, and RELP, writing to databases (MySQL, PostgreSQL, 
+Oracle, and many more), email alerting, fully configurable output formats 
+(including high-precision timestamps), the ability to filter on any part of 
+the syslog message, on-the-wire message compression, and the ability to convert 
+text files to syslog"
 REMOTE_IDS="freshmeat:rsyslog"
 
 DOWNLOADS="listed-only: http://download.rsyslog.com/${PN}/${PNV}.tar.gz"
@@ -23,7 +28,6 @@ DEPENDENCIES="
         postgresql? ( dev-db/postgresql )
 "
 
-DEFAULT_SRC_INSTALL_PARAMS=( docdir=/usr/share/doc/${PNVR} )
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=( gnutls mysql postgresql )
 DEFAULT_SRC_CONFIGURE_PARAMS=( --disable-testbench )
 src_install() {

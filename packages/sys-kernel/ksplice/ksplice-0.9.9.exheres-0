@@ -1,4 +1,0 @@
-
-require ksplice
-
-PLATFORMS="~amd64"
