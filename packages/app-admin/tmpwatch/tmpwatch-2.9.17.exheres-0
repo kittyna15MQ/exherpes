@@ -16,6 +16,7 @@ LICENCES="GPL-2"
 SLOT="0"
 PLATFORMS="~amd64"
 
+# TODO: Add proper build dependencies
 DEPENDENCIES="
     fetch:
         app-misc/ca-certificates        
@@ -30,6 +31,6 @@ src_prepare() {
 }
 
 src_install() {
-    edo dosbin tmpwatch
-    edo doman tmpwatch.8
+    dosbin tmpwatch
+    doman tmpwatch.8
 }
