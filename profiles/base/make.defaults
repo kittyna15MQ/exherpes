@@ -1,0 +1,54 @@
+# Copyright (c) 2007 Alexander Færøy <ahf@exherbo.org>
+# Distributed under the terms of the GNU General Public License v2
+
+# Environment variables to expand into MYOPTIONS. Also consider adding to
+# metadata/info/variables.conf.
+SUBOPTIONS="APACHE_MODULES ANT_DATA_TYPES ANT_SCRIPTING ANT_TASKS ENCODINGS
+EPIPHANY_EXTENSIONS FPRINT_DRIVERS GSTREAMER_PLUGINS IM_PROTOCOLS INPUT_DRIVERS
+KDE_PARTS KIPI_PLUGINS KOPETE_PLUGINS LINGUAS NGINX_MODULES NUT_DRIVERS PLATFORM
+AMD64_CPU_FEATURES IA64_CPU_FEATURES PPC_CPU_FEATURES VIDEO_DRIVERS
+X86_CPU_FEATURES P2P_NETWORKS PCSC_DRIVERS PHP_EXTENSIONS"
+
+# SUBOPTIONS variables that the package manager hides.
+HIDDEN_SUBOPTIONS="PLATFORM AMD64_CPU_FEATURES IA64_CPU_FEATURES PPC_CPU_FEATURES X86_CPU_FEATURES"
+
+CONFIG_PROTECT="/etc"
+CONFIG_PROTECT_MASK="/etc/env.d"
+
+# Alexander Færøy <ahf@exherbo.org>:
+# Sane defaults for X11
+INPUT_DRIVERS="keyboard mouse"
+VIDEO_DRIVERS="vesa"
+
+# Bo Ørsted Andresen <zlin@exherbo.org>
+# Decent defaults for kde parts
+KDE_PARTS="blinken kalgebra kalzium kanagram kbruch kgeography khangman
+kig kiten klettres kmplot kpercentage kstars ktouch kturtle kwordquiz marble
+parley" # kdeedu
+KDE_PARTS="${KDE_PARTS} gwenview kolourpaint ksnapshot okular svgpart" # kdegraphics
+KDE_PARTS="${KDE_PARTS} dragonplayer juk kmix kscd" # kdemultimedia
+KDE_PARTS="${KDE_PARTS} kget knewsticker kopete krdc" # kdenetwork
+KDE_PARTS="${KDE_PARTS} akregator kleopatra knodes kontact korganizer" # kdepim
+KDE_PARTS="${KDE_PARTS} kate" # kdesdk
+KDE_PARTS="${KDE_PARTS} amor kteatime ktux kweather" # kdetoys
+KDE_PARTS="${KDE_PARTS} kcalc kcharselect kdf kgpg kwallet" # kdeutils
+KDE_PARTS="${KDE_PARTS} kpresenter krita kspread kword" # koffice
+
+# Wulf C. Krueger <philantrop@exherbo.org>
+# Default Apache modules to make it work with its default httpd.conf.
+APACHE_MODULES="alias authz_host dir log_config logio mime"
+
+# Pierre Lejeune <superheron@gmail.com>
+# Drivers for Fprint library
+FPRINT_DRIVERS="upekts upektc upeksonly vcom5s uru4000 fdu2000 aes1610 aes2501
+aes4000"
+
+# Pierre Lejeune <superheron@gmail.com>
+# P2P networks supported by MLDonkey
+P2P_NETWORKS="bittorrent directconnect donkey donkeysui fasttrack filetp
+gnutella gnutella2"
+
+# Pierre Lejeune <superheron@gmail.com>
+# Pcsc drivers for Belgian eID middleware
+PCSC_DRIVERS="acr38u ccid"
+

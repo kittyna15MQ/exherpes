@@ -1,8 +1,7 @@
-# Copyright 2009 Nathan McSween <0bfuscate@gmx.com>
+# Copyright 2010 Nathan McSween <0bfuscate@gmx.com>
 # Distributed under the terms of the GNU General Public License v2
-# Some shamelessly stolen from apache.exlib::arbor
-
-require multilib
+# Based on apache.exlib::arbor
+#   Copyright 2009 Ingmar Vanhassel
 
 export_exlib_phases src_configure src_install
 myexparam nginx_modules[]
@@ -38,7 +37,7 @@ DEFAULT_SRC_CONFIGURE_PARAMS=()
 DEFAULT_SRC_CONFIGURE_OPTION_WITHS=()
 
 nginx_src_configure() {
-    # Bypass nginx configure.
+# Bypass nginx configure.
 cat <<EOF >> "${WORK}/auto/options"
 NGX_PREFIX=/usr NGX_SBIN_PATH=/usr/sbin/nginx
 NGX_CONF_PATH=/etc/nginx/nginx.conf
@@ -55,13 +54,13 @@ NGX_HTTP_FASTCGI_TEMP_PATH=/var/tmp/nginx/fastcgi
 USE_PCRE=YES
 EOF
 
-    # Add NGINX_MODULES options to auto/options/
+    # Add NGINX_MODULES options to auto/options
     for s in ${NGINX_MODULES[@]}; do
         if optionq nginx_modules:${s}; then
-            name=$(option-name $s)
+            name=$(option_name $s)
             echo ${name^^}=YES >> ${WORK}/auto/options
         else
-            name=$(option-name $s)
+            name=$(option_name $s)
             echo ${name^^}=NO >> ${WORK}/auto/options
         fi
     done
@@ -70,15 +69,18 @@ EOF
 
 nginx_src_install() {
     default
-    rm -r "${IMAGE}"/usr/html
-    keepdir /srv/localhost/"${CATEGORY}"/"${PN}" /var/log/"${PN}"
-    fowners nginx:nginx /srv/localhost/"${CATEGORY}"/"${PN}"
+
+    edo rm -rf "${IMAGE}"/var/run
+    edo rm -rf "${IMAGE}"/usr/html
+    keepdir /srv/localhost/exherbo/"${CATEGORY}"/"${PN}" /var/log/"${PN}" \
+            /var/tmp/nginx/{client,proxy,fastcgi}
+    fowners nginx:nginx /srv/localhost/exherbo/"${CATEGORY}"/"${PN}"
     newinitd "${FILES}"/nginx.init nginx
     insinto /etc/nginx
     doins "${FILES}"/nginx.conf
 }
 
-option-name() {
+option_name() {
     case $1 in
     'mail'|'mail_ssl'|'mail_pop3'|'mail_imap'|'mail_smtp')
         echo $1
