@@ -21,7 +21,7 @@ DEPENDENCIES="
     build+run:
         nginx_modules:gzip? ( sys-libs/zlib )
         nginx_modules:gzip_static? ( sys-libs/zlib )
-        nginx_modules:perl? ( dev-lang/perl )
+        nginx_modules:perl? ( dev-lang/perl:* )
         nginx_modules:geoip? ( net-libs/geoip )
         nginx_modules:ssl? ( dev-libs/openssl )
         nginx_modules:mail_ssl? ( dev-libs/openssl )
