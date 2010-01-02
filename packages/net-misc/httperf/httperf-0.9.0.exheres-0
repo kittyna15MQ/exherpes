@@ -9,3 +9,5 @@ LICENCES="GPL-2"
 SLOT="0"
 PLATFORMS="~amd64"
 
+#TODO: Add proper dependencies on autotools, etc
+

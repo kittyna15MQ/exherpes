@@ -1,4 +1,4 @@
-# Copyright (c) 2009 Nathan McSween <0bfuscate@gmail.com>
+# Copyright (c) 2009 Nathan McSween
 # Distributed under the terms of the GNU General Public License v2
 
 SUMMARY="Rsyslog is a enhanced multi-threaded syslogd"
@@ -16,7 +16,8 @@ LICENCES="GPL-3 LGPL-3"
 BUGS_TO="0bfuscate@gmx.com"
 SLOT="0"
 
-MYOPTIONS="gnutls mysql postgresql" # kerberos (kerberos) dbi (libdbi) relp (librelp) snmp (net-snmp)
+# TODO: Add kerberos, dbi, librelp and snmp options
+MYOPTIONS="gnutls mysql postgresql"
 
 DEPENDENCIES="
     build:

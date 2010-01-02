@@ -7,7 +7,7 @@ export_exlib_phases src_configure src_install
 myexparam nginx_modules[]
 exparam -v NGINX_MODULES nginx_modules[@]
 
-SUMMARY="A small and fast HTTP server"
+SUMMARY="A small and fast HTTP server."
 DESCRIPTION="
 "
 HOMEPAGE="http://nginx.net/"
@@ -35,7 +35,7 @@ UPSTREAM_DOCUMENTATION="http://wiki.nginx.org/Main"
 
 nginx_src_configure() {
 # Bypass nginx configure.
-cat <<EOF >> "${WORK}/auto/options"
+cat <<EOF >> "${WORK}"/auto/options
 NGX_PREFIX=/usr NGX_SBIN_PATH=/usr/sbin/nginx
 NGX_CONF_PATH=/etc/nginx/nginx.conf
 NGX_ERROR_LOG_PATH=/var/log/nginx/error.log
@@ -51,17 +51,17 @@ NGX_HTTP_FASTCGI_TEMP_PATH=/var/tmp/nginx/fastcgi
 USE_PCRE=YES
 EOF
 
-    # Add NGINX_MODULES options to auto/options
+    # Add NGINX_MODULES options to auto/options.
     for s in ${NGINX_MODULES[@]}; do
         if optionq nginx_modules:${s}; then
             name=$(option_name $s)
-            echo ${name^^}=YES >> ${WORK}/auto/options
+            echo ${name^^}=YES >> "${WORK}"/auto/options
         else
             name=$(option_name $s)
-            echo ${name^^}=NO >> ${WORK}/auto/options
+            echo ${name^^}=NO >> "${WORK}"/auto/options
         fi
     done
-    "${WORK}"/configure
+    edo "${WORK}"/configure
 }
 
 nginx_src_install() {
