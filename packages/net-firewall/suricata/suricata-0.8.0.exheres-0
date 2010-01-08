@@ -1,7 +1,7 @@
 # Copyright 2009-2010 Nathan McSween
 # Distributed under the terms of the GNU General Public License v2
 
-require suricata.exlib
+require suricata
 
 PLATFORMS="~amd64"
 
