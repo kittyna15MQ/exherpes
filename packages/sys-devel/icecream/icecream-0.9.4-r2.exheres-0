@@ -1,0 +1,117 @@
+# Copyright 2009 Sterling X. Winter <replica@exherbo.org>
+# Distributed under the terms of the GNU General Public License v2
+# Based in part upon 'icecream-0.9.3.ebuild' from Gentoo, which is:
+#     Copyright 1999-2009 Gentoo Foundation
+
+require autotools [ supported_autoconf=[ 2.5 ] supported_automake=[ 1.10 ] ] multilib
+
+MY_PNV="icecc-${PV}"
+
+SUMMARY="Distributed parallel compilation system"
+DESCRIPTION="
+Icecream is based on ideas and code from distcc. Like distcc it takes compile
+jobs from a build and distributes them to remote machines for parallel
+compilation. Unlike distcc, icecream uses a central server that schedules the
+compile jobs to the fastest free server and is thus dynamic. Icemon, the
+icecream monitor, is not included in this package.
+"
+HOMEPAGE="http://en.opensuse.org/Icecream"
+DOWNLOADS="ftp://ftp.suse.com/pub/projects/${PN}/${MY_PNV}.tar.bz2"
+
+LICENCES="GPL-2"
+SLOT="0"
+PLATFORMS="~amd64 ~x86"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    build:
+        app-text/docbook-xml-dtd:4.2
+        app-text/xmlto
+    build+run:
+        group/icecream
+        user/icecream
+"
+
+BUGS_TO="replica@exherbo.org"
+
+WORK="${WORKBASE}/${MY_PNV}"
+
+DEFAULT_SRC_PREPARE_PATCHES=(
+    "${FILES}"/${PN}-dont-create-symlinks.patch
+    "${FILES}"/${PN}-conf.d-verbosity.patch
+)
+
+src_compile() {
+    default
+
+    einfo "Converting man pages..."
+    for manpage in icecc.1 iceccd.1 icecream.7 scheduler.1 ; do
+        # Upstream doesn't currently ship translations for the KDE DocBook
+        # files used to generate man pages, so by removing the refentry 'lang'
+        # attribute we can swap out the DTD and make the files validate as
+        # vanilla DocBook refentry fragments (fortunately no other syntax
+        # specific to KDE DocBook is used). This allows us to get rid of the
+        # ridiculous kdelibs dependency and use xmlto in place of meinproc and
+        # docbook-xml-dtd:4.2 in place of the KDE DTD.
+        sed -e '/^<refentry/s/ lang="&language;"//' \
+            -e '1h;1!H;${g;s|<!DOCTYPE refentry PUBLIC "-//KDE//DTD DocBook XML V4\.2-Based Variant V1\.1//EN" "dtd/kdex\.dtd" \[\n<!ENTITY % English "INCLUDE">\n\]>|<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN" "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">|p}' \
+            -n doc/man-${manpage}.docbook > doc/${manpage}.xml || die "Changing doctype of man page sources failed"
+
+        xmlto man doc/${manpage}.xml || die "Converting DocBook source to man page failed"
+    done
+
+    mv Icecream.7 icecream.7 || die "Renaming man page Icecream.7 failed"
+}
+
+src_install() {
+    default
+
+    newconfd suse/sysconfig.icecream icecream
+    doinitd "${FILES}"/icecream
+
+    doman icecc.1 iceccd.1 icecream.7 scheduler.1
+
+    diropts -m0755
+    keepdir /usr/$(get_libdir)/icecc/bin
+
+    for compiler in gcc cc c++ g++ ; do
+        ln -s /usr/bin/icecc "${IMAGE}"/usr/$(get_libdir)/icecc/bin/${compiler}
+        ln -s /usr/bin/icecc "${IMAGE}"/usr/$(get_libdir)/icecc/bin/${CHOST}-${compiler}
+    done
+}
+
+pkg_postinst() {
+    elog "If your local binutils/gcc/glibc are compiled with processor-specific"
+    elog "flags they might not work on remote machines. To work around this,"
+    elog "build gcc, glibc and binutils without processor-specific flags, copy"
+    elog "them to a tarball for distribution to your remote machines:"
+    elog "    /usr/bin/icecc --build-native"
+    elog
+    elog "then set ICECC_VERSION in /etc/conf.d/icecream locally:"
+    elog '    ICECC_VERSION=<tarball_path>'
+    elog
+    elog "To use icecream with Paludis set the following in /etc/paludis/bashrc:"
+    elog '    PATH="/usr/lib/icecc/bin:${PATH}"'
+    elog '    MAKEOPTS="-jN"'
+    elog
+    elog "where N is the number of parallel make jobs to distribute. A typical"
+    elog "value for -j is 1 plus twice the number of total CPUs or cores"
+    elog "available in your icecream cluster. You can use icecream with plain"
+    elog '`make` by putting the above PATH line in /etc/env.d/99local, running:'
+    elog "    eclectic env update && . /etc/profile"
+    elog 'then manually passing -jN to `make` whenever you call it.'
+    elog
+    elog "If you're using ccache make sure it comes first in PATH:"
+    elog '    PATH="/usr/lib/ccache/bin:/usr/lib/icecc/bin:${PATH}"'
+    elog
+    elog "The following ports might need to be opened in your firewall(s):"
+    elog "    TCP/8765 for the the scheduler computer (required)"
+    elog "    UDP/8765 for broadcast to find the scheduler (optional)"
+    elog "    TCP/8766 for the telnet interface to the scheduler (optional)"
+    elog "    TCP/10245 on the daemon computers (required)"
+    elog
+    elog "For more detailed documentation see:"
+    elog "    http://en.opensuse.org/Icecream"
+    elog "    http://dev.gentoo.org/~bluebird/icecream.xml"
+}
+

@@ -1,0 +1,19 @@
+Source: Gentoo
+Upstream: no
+Reason: Exherbo isn't (open)SUSE -- we always want `eclectic gcc` to handle our
+        /usr/bin/{c++,cc,g++,gcc} symlinks.
+
+diff -urN icecream.orig/client/Makefile.am icecream/client/Makefile.am
+--- icecream.orig/client/Makefile.am
++++ icecream/client/Makefile.am
+@@ -17,10 +17,6 @@
+ 
+ install-exec-local:
+ 	$(mkinstalldirs) $(DESTDIR)$(bindir)
+-	for link in g++ gcc c++ cc; do \
+-	  rm -f $(DESTDIR)$(bindir)/$$link ;\
+-	  $(LN_S) icecc $(DESTDIR)$(bindir)/$$link ;\
+-	done
+ 
+ uninstall-local:
+ 	for link in g++ gcc c++ cc; do \
