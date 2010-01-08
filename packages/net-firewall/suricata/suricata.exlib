@@ -14,7 +14,7 @@ DEPENDENCIES="
         dev-libs/libpcap
         dev-libs/libyaml
         dev-libs/pcre
-        net-libs/htp
+        net-libs/htb
         net-libs/libnet
         sys-libs/zlib
 "
