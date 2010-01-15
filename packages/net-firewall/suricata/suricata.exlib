@@ -23,7 +23,6 @@ WORK="${WORKBASE}/${PN}-current"
 BUGS_TO="0bfuscate@gmx.com"
 
 DEFAULT_SRC_CONFIGURE_PARAMS=(
---enable-nfqueue
 --enable-unittests
 )
 
