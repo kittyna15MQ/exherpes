@@ -18,7 +18,7 @@ DEPENDENCIES="
         net-libs/libnet
         sys-libs/zlib
 "
-
+WORK="${WORKBASE}/${PN}-current"
 BUGS_TO="0bfuscate@gmx.com"
 
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=( nfqueue unittests)
