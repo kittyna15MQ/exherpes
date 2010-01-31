@@ -1,0 +1,28 @@
+
+
+SUMMARY="A wrapper around iptables that streamlines management of rulesets."
+HOMEPAGE="http://www.shorewall.net"
+DOWNLOADS="$HOMEPAGE/pub/${PN}/$(ever range 1-2)/${PNVR}/${PNVR}.tar.bz2"
+
+LICENCES="GPL-2"
+SLOT="0"
+PLATFORMS="~amd64"
+
+DEPENDENCIES="
+    build+run:
+        net-firewall/iptables
+        sys-apps/iproute2
+        dev-lang/perl
+"
+
+BUGS_TO="0bfuscate@gmx.com"
+
+src_compile() {
+    :
+}
+
+src_install() {
+    PREFIX="${IMAGE}" edo ./install.sh
+    keepdir /var/lib/shorewall
+    newinitd "${FILES}"/shorewall.initd shorewall
+}
