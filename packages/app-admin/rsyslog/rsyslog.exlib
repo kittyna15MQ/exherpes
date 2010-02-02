@@ -33,8 +33,10 @@ DEFAULT_SRC_CONFIGURE_PARAMS=(--disable-testbench)
 src_install() {
     default
 
+    keepdir /var/spool/rsyslog
     insinto /etc/
     doins "${WORK}"/rsyslog.conf
     newconfd "${FILES}"/rsyslog.confd rsyslog
     newinitd "${FILES}"/rsyslog.initd rsyslog
+
 }
