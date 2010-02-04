@@ -1,0 +1,35 @@
+SUMMARY="Chrony is a pair of programs which are used to maintain the 
+accuracy of the system clock on a computer."
+HOMEPAGE="http://chrony.tuxfamily.org"
+DOWNLOADS="http://download.tuxfamily.org/chrony/${PNVR}.tar.gz"
+
+LICENCES="GPL-2"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
+# TODO: Make optional.
+DEPENDENCIES="
+    build:
+    build+run:
+        sys-libs/readline
+        sys-libs/libcap
+"
+
+BUGS_TO="0bfuscate@gmx.com"
+
+src_install() {
+    :
+
+    dobin chronyc
+    dosbin chronyd
+
+    dodoc chrony.txt README examples/chrony.{conf,keys}.example
+    doman *.{1,5,8}
+
+    newinitd "${FILES}"/chronyd.initd chronyd
+    newconfd "${FILES}"/chronyd.conf chronyd
+
+    insinto /etc
+    newins examples/chrony.conf.example chrony.conf
+}
