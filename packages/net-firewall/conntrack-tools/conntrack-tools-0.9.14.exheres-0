@@ -1,0 +1,30 @@
+# Copyright 2009-2010 Nathan McSween
+# Distributed under the terms of the GNU General Public License v2
+
+SUMMARY="Play with connection tracking states in userspace"
+HOMEPAGE="http://www.netfilter.org/projects/conntrack-tools"
+DOWNLOADS="${HOMEPAGE}/files/${PNVR}.tar.bz2"
+
+LICENCES="GPL-2"
+SLOT="0"
+PLATFORMS="~amd64"
+
+DEPENDENCIES="
+    build:
+        dev-util/pkg-config
+    build+run:
+        net-libs/libnetfilter_conntrack
+        net-libs/libnfnetlink
+"
+
+BUGS_TO="0bfuscate@gmx.com"
+
+src_install(){
+    default
+
+    newinitd "${FILES}/conntrackd.initd" conntrackd
+    newconfd "${FILES}/conntrackd.confd" conntrackd
+
+    insinto /etc/conntrackd
+    doins ./doc/stats/conntrackd.conf
+}
