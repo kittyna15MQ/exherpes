@@ -1,0 +1,25 @@
+
+MY_PNVR="${PN}-$(ever delete _)"
+
+SUMMARY="Sshguard monitors services through their logging activity and 
+actively blocks based on rulesets"
+
+HOMEPAGE="http://www.sshguard.net"
+DOWNLOADS="mirror://sourceforge/${PN}/${PN}/${MY_PNVR}/${MY_PNVR}.tar.bz2"
+
+LICENCES="BSD"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
+DEPENDENCIES="
+    build+run:
+        net-firewall/iptables
+"
+WORK="${WORKBASE}/${MY_PNVR}"
+
+BUGS_TO="0bfuscate@gmx.com"
+
+DEFAULT_SRC_CONFIGURE_PARAMS=(
+--with-firewall=iptables
+)
