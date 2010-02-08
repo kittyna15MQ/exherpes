@@ -1,4 +1,5 @@
-
+# Copyright 2009-2010 Nathan McSween
+# Distributed under the terms of the GNU General Public License v2
 
 SUMMARY="A wrapper around iptables that streamlines management of rulesets."
 HOMEPAGE="http://www.shorewall.net"
