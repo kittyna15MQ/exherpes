@@ -10,7 +10,7 @@ PLATFORMS="~amd64"
 
 DEPENDENCIES="
     build+run:
-        net-libs/libnfnetlink[]
+        net-libs/libnfnetlink
 "
 
 BUGS_TO="0bfuscate@gmx.com"
