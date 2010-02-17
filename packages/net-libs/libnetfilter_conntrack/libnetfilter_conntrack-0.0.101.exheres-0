@@ -6,7 +6,7 @@ DOWNLOADS="${HOMEPAGE}/files/${PNVR}.tar.bz2"
 
 LICENCES="GPL-2"
 SLOT="0"
-PLATFORMS="~amd64"
+PLATFORMS="~x86 ~amd64"
 
 DEPENDENCIES="
     build+run:
