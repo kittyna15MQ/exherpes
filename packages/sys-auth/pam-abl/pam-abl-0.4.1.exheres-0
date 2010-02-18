@@ -21,7 +21,7 @@ BUGS_TO="0bfuscate@gmx.com"
 src_install() {
     default
 
-    keepdir /var/db/"${PN}"
+    keepdir /var/db/abl
     dodoc conf/sys-auth
     insinto /etc/security
     doins conf/pam_abl.conf
