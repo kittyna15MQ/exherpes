@@ -1,4 +1,5 @@
 
+require pam
 
 SUMMARY="A PAM module that provides auto blacklisting of hosts and users responsible for repeated
 failed authentication attempts"
@@ -19,10 +20,11 @@ DEPENDENCIES="
 BUGS_TO="0bfuscate@gmx.com"
 
 src_install() {
-    default
+
+    dopamd src/.lib/pam_abl.so
+    dopamsecurity / conf/pam_abl.conf
+    dosbin /src/tools/pam_abl
 
     keepdir /var/db/abl
-    dodoc conf/sys-auth
-    insinto /etc/security
-    doins conf/pam_abl.conf
+    dodoc conf/system-auth
 }
