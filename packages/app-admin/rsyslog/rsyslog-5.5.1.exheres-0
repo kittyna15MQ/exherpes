@@ -4,3 +4,5 @@
 require rsyslog
 
 PLATFORMS="~amd64"
+SLOT="0"
+

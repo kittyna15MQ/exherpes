@@ -7,13 +7,13 @@ Oracle, and many more), email alerting, fully configurable output formats
 (including high-precision timestamps), the ability to filter on any part of 
 the syslog message, on-the-wire message compression, and the ability to convert 
 text files to syslog"
+
 REMOTE_IDS="freshmeat:rsyslog"
 
 DOWNLOADS="listed-only: http://download.rsyslog.com/${PN}/${PNV}.tar.gz"
 LICENCES="GPL-3 LGPL-3"
 
 BUGS_TO="0bfuscate@gmx.com"
-SLOT="0"
 
 # TODO: Add kerberos, dbi, librelp and snmp options
 MYOPTIONS="gnutls mysql postgresql"
