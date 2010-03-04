@@ -1,4 +1,4 @@
-# Copyright 2008 Ciaran McCreesh
+# Copyright 2010 Nathan McSween
 # Distributed under the terms of the GNU General Public License v2
 # Based in part upon 'tmpwatch-2.9.16' from Gentoo, which is:
 #     Copyright 1999-2009 Gentoo Foundation
@@ -9,7 +9,7 @@ The tmpwatch utility recursively searches through specified directories and remo
 not been accessed in a specified period of time. tmpwatch is normally used to clean up directories
 which are used for temporarily holding files (for example, /tmp). 
 "
-HOMEPAGE="http://fedorahosted.org/tmpwatch/"
+HOMEPAGE="http://fedorahosted.org/${PN}"
 DOWNLOADS="https://fedorahosted.org/releases/t/m/${PN}/${PNVR}.tar.bz2"
 
 LICENCES="GPL-2"
