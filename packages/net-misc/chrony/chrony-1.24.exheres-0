@@ -30,6 +30,7 @@ src_install() {
     newinitd "${FILES}"/chronyd.initd chronyd
     newconfd "${FILES}"/chronyd.conf chronyd
 
+    dodir /etc/chrony.d
     insinto /etc
     newins examples/chrony.conf.example chrony.conf
 }
