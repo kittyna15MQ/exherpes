@@ -29,9 +29,9 @@ src_install() {
     doman *.{1,5,8}
 
     newinitd "${FILES}"/chronyd.initd chronyd
-    newconfd "${FILES}"/chronyd.conf chronyd
+    newconfd "${FILES}"/chronyd.confd chronyd
 
     keepdir /etc/chrony.d
     insinto /etc
-    newins examples/chrony.conf.example chrony.conf
+    newins "${FILES}"/chrony.conf
 }
