@@ -6,11 +6,9 @@ DOWNLOADS="http://download.tuxfamily.org/chrony/${PNVR}.tar.gz"
 LICENCES="GPL-2"
 SLOT="0"
 PLATFORMS="~amd64"
-MYOPTIONS=""
 
 # TODO: Make optional.
 DEPENDENCIES="
-    build:
     build+run:
         user/chrony
         sys-libs/readline
