@@ -31,5 +31,5 @@ src_install() {
 
     keepdir /etc/chrony.d
     insinto /etc
-    newins "${FILES}"/chrony.conf
+    newins "${FILES}"/chrony.conf chrony.conf
 }
