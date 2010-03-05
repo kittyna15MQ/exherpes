@@ -11,6 +11,7 @@ PLATFORMS="~amd64"
 DEPENDENCIES="
     build+run:
         user/chrony
+        group/chrony
         sys-libs/readline
         sys-libs/libcap
 "
