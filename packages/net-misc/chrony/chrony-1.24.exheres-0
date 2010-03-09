@@ -30,8 +30,8 @@ src_install() {
     newinitd "${FILES}"/chronyd.initd chronyd
     newconfd "${FILES}"/chronyd.confd chronyd
 
-    keepdir /etc/chrony.d
-    chown chrony:chrony ${IMAGE}/etc/chrony/d
+    keepdir /etc/chrony.d /var/log/chrony
+    chown chrony:chrony "${IMAGE}"/{etc/chrony.d,var/log/chrony}
     insinto /etc
     newins "${FILES}"/chrony.conf chrony.conf
 }
