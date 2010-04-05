@@ -1,0 +1,33 @@
+#
+#
+
+require pam sourceforge [ project=pam_abl suffix=tar.bz2 ]
+
+SUMMARY="A auto-blacklisting module for PAM"
+DESCRIPTION="A PAM module that provides auto blacklisting of hosts and users 
+responsible for repeated failed authentication attempts."
+HOMEPAGE="http://pam-abl.deksai.com/"
+DOWNLOADS=""
+
+LICENCES="GPL-2"
+SLOT="0"
+PLATFORMS="~amd64"
+
+DEPENDENCIES="
+    build:
+    build+run:
+        sys-libs/pam
+        sys-libs/db
+"
+
+BUGS_TO="0bfuscate@gmx.com"
+
+DEFAULT_SRC_CONFIGURE_PARAMS=(--with-pam-dir="$(getpam_mod_dir)")
+
+src_install() {
+    default
+
+    keepdir /var/lib/abl
+    dopamsecurity / "${FILES}/pam_abl.conf"
+    dodoc ./conf/system-auth
+}
