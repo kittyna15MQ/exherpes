@@ -1,7 +1,5 @@
-#
-#
 
-require pam sourceforge [ project=pam_abl suffix=tar.bz2 ]
+require pam sourceforge [ project=pam-abl suffix=tar.bz2 ]
 
 SUMMARY="A auto-blacklisting module for PAM"
 DESCRIPTION="A PAM module that provides auto blacklisting of hosts and users 
@@ -23,6 +21,8 @@ DEPENDENCIES="
 BUGS_TO="0bfuscate@gmx.com"
 
 DEFAULT_SRC_CONFIGURE_PARAMS=(--with-pam-dir="$(getpam_mod_dir)")
+
+WORK="${WORKBASE}/${PNVR/pam_/pam-}"
 
 src_install() {
     default
