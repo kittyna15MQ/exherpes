@@ -23,14 +23,3 @@ DEPENDENCIES="
 "
 
 BUGS_TO="0bfuscate@gmx.com"
-
-src_prepare() {
-    edo sed -i -e "s:..RPM_OPT_FLAGS.:${CFLAGS}:" -e "s:^CVS:#CVS:g" Makefile
-    edo sed -i 's|/sbin/fuser|/bin/fuser|' tmpwatch.c
-    edo sed -i 's|/sbin|/bin|' tmpwatch.8
-}
-
-src_install() {
-    dosbin tmpwatch
-    doman tmpwatch.8
-}
