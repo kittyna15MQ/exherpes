@@ -1,0 +1,12 @@
+
+
+SUMMARY="Jemalloc is a general-purpose scalable concurrent malloc(3) implementation."
+HOMEPAGE="http://www.canonware.com/jemalloc"
+DOWNLOADS="http://www.canonware.com/download/${PN}/${PNV}.tar.bz2"
+
+LICENCES="BSD"
+SLOT="0"
+PLATFORMS="~amd64"
+
+BUGS_TO="0bfuscate@gmx.com"
+
