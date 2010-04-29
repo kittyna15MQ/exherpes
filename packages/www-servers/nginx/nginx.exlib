@@ -73,7 +73,7 @@ nginx_src_install() {
     edo rm -rf "${IMAGE}"/usr/html
     keepdir /srv/localhost/exherbo/"${CATEGORY}"/"${PN}" /var/log/"${PN}" \
             /var/tmp/nginx/{client,proxy,fastcgi}
-    fowners nginx:nginx /srv/localhost/exherbo/"${CATEGORY}"/"${PN}"
+    chown nginx:nginx /srv/localhost/exherbo/"${CATEGORY}"/"${PN}"
     newinitd "${FILES}"/nginx.init nginx
     insinto /etc/nginx
     doins "${FILES}"/nginx.conf
