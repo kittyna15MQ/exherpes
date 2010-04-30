@@ -1,0 +1,36 @@
+
+MY_PNV="${PN}.v.${PV}"
+
+require sourceforge [ suffix="tar.gz" ]
+
+SUMMARY="A mutithreaded dynamic dns client"
+DESCRIPTION="
+inadyn-mt, based on inadyn, inadyn-advanced. A multi-OS (**NIX, NT, Win32s) console/service/daemon
+dynamic DNS client. Supports many update services. Adds Windows RAS trapping; service install,
+management; unicode & language strings; audible alerts.
+"
+
+LICENCES="GPL-2"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS="threads" # Add audio crap? who the hell needs that?
+
+DEPENDENCIES="
+    build:
+    build+run:
+"
+
+BUGS_TO="0bfuscate@gmx.com"
+
+WORK="${WORKBASE}/${MY_PNV}"
+
+DEFAULT_SRC_CONFIGURE_PARAMS=(--disable-sound)
+DEFUALT_SRC_CONFIGURE_OPTION_WITHS=(threads)
+
+src_install() {
+    :
+
+    dosbin ./bin/linux/inadyn-mt
+    doman ./man/inadyn-mt*
+    newinitd "${FILES}"/"${PN}".initd "${PN}"
+}
