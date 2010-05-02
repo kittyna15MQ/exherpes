@@ -1,0 +1,41 @@
+
+require sourceforge [ suffix="tar.gz" ]
+
+SUMMARY="Varnish is a state-of-the-art, high-performance HTTP accelerator."
+
+HOMEPAGE="http://varnish-cache.org"
+
+LICENCES="BSD"
+SLOT="0"
+PLATFORMS="~amd64"
+
+# Needs C compiler to compile VCL DSL
+DEPENDENCIES="
+    build:
+    build+run:
+        user/varnish
+        group/varnish
+
+        sys-devel/gcc
+"
+
+BUGS_TO="0bfuscate@gmx.com"
+
+DEFAULT_SRC_CONFIGURE_PARAMS=( )
+DEFAULT_SRC_CONFIGURE_OPTION_WITHS=( )
+DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=( )
+
+# Disable tests for now
+src_test() {
+    :
+}
+
+src_install() {
+    default
+
+    keepdir /var/lib/varnish
+    keepdir /var/tmp/varnish
+
+    newconfd "${FILES}"/varnishd.confd varnish
+    newinitd "${FILES}"/varnishd.initd varnishd
+}
