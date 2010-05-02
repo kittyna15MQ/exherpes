@@ -35,6 +35,7 @@ src_install() {
 
     keepdir /var/lib/varnish
     keepdir /var/tmp/varnish
+    keepdir /var/log/varnish
 
     newconfd "${FILES}"/varnishd.confd varnish
     newinitd "${FILES}"/varnishd.initd varnishd
