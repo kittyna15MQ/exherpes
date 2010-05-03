@@ -43,7 +43,6 @@ src_install() {
     default
 
     optionq pam && pamd_mimic_system auth account session
-    edo mv "${IMAGE}"/var/www/* /srv/localhost/exherbo/"${CATEGORY}"/"${PN}"
 
     edo sed "s:/var/log/cherokee\.:/var/log/cherokee/cherokee\.:g" "${IMAGE}"/etc/cherokee/cherokee.conf
     keepdir  /var/lib/"${PN}"/graphs/images/
