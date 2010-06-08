@@ -1,0 +1,21 @@
+
+
+SUMMARY="LuaJIT is a Just-In-Time Compiler for the Lua* programming language."
+
+HOMEPAGE="http://luajit.org"
+DOWNLOADS="${HOMEPAGE}download/${PNVR}.tar.gz"
+
+LICENCES="MIT"
+SLOT="0"
+PLATFORMS="~amd64"
+
+DEPENDENCIES="
+    build:
+    build+run:
+"
+
+BUGS_TO="nwmcsween+exherbo_bug@gmail.com"
+
+src_configure() {
+    :
+}
