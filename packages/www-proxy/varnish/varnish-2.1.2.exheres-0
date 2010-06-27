@@ -19,7 +19,7 @@ DEPENDENCIES="
         sys-devel/gcc
 "
 
-BUGS_TO="0bfuscate@gmx.com"
+BUGS_TO="nwmcsween+exherbo@gmail.com"
 
 DEFAULT_SRC_CONFIGURE_PARAMS=( )
 DEFAULT_SRC_CONFIGURE_OPTION_WITHS=( )

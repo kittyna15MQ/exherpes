@@ -13,7 +13,7 @@ REMOTE_IDS="freshmeat:rsyslog"
 DOWNLOADS="listed-only: http://download.rsyslog.com/${PN}/${PNV}.tar.gz"
 LICENCES="GPL-3 LGPL-3"
 
-BUGS_TO="0bfuscate@gmx.com"
+BUGS_TO="nwmcsween+exherbo@gmail.com"
 
 # TODO: Add kerberos, dbi, librelp and snmp options
 MYOPTIONS="gnutls mysql postgresql"

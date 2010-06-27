@@ -1,0 +1,24 @@
+
+MY_PNV="${PN}_no-GUI_${PV}"
+
+require sourceforge [ suffix=tgz ] [ project=peerguardian ]
+
+SUMMARY="PeerGuardian helps protect your privacy by blocking many ranges of aggressive IPs while you
+use P2P."
+
+LICENCES="GPL-2"
+SLOT="0"
+PLATFORMS="~amd64"
+
+DEPENDENCIES="
+    build:
+    build+run:
+        net-libs/libnetfilter_queue
+"
+
+BUGS_TO="nwmcsween+exherbo@gmail.com"
+
+src_configure(){
+    edo sed -i -e '/DBUS/d' Makefile && echo 'DBUS ?= no' >> Makefile
+    :
+}

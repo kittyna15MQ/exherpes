@@ -20,7 +20,7 @@ DEPENDENCIES="
     build+run:
 "
 
-BUGS_TO="0bfuscate@gmx.com"
+BUGS_TO="nwmcsween+exherbo@gmail.com"
 
 WORK="${WORKBASE}/${MY_PNV}"
 

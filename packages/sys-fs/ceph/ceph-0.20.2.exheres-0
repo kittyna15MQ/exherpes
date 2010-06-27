@@ -11,9 +11,9 @@ PLATFORMS="~amd64"
 MYOPTIONS="" # fuse -> libfuse
 
 DEPENDENCIES="
-    build:
+    build:  dev-libs/boost
     build+run:
 "
 
-BUGS_TO="nwmcsween+exherbo_bugs@gmail.com"
+BUGS_TO="nwmcsween+exherbo@gmail.com"
 
