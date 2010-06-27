@@ -25,7 +25,10 @@ DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=( )
 src_prepare() {
     default
 
-    sed -i -e 's/0755 -s/0755/g' daemon/Makefile.in examples/Makefile.in
+    # Strip strip
+    edo sed -i -e 's/0755 -s/0755/g' daemon/Makefile.in examples/Makefile.in
+    # ld has a hissy fit
+    edo sed -i -e s:'$(LDFLAGS)':: examples/Makefile.in
 }
 
 src_install() {
