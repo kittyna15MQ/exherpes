@@ -1,6 +1,0 @@
-
-require cherokee
-
-SLOT="0"
-PLATFORMS="~amd64"
-
