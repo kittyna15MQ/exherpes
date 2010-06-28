@@ -1,0 +1,25 @@
+
+
+SUMMARY="A userspace daemon for LVS cluster nodes healthchecks and LVS directors failover."
+HOMEPAGE="http://www.keepalived.org"
+DOWNLOADS="${HOMEPAGE}/software/${PNV}.tar.gz"
+
+LICENCES="GPL-2"
+SLOT="0"
+PLATFORMS="~amd64"
+
+DEPENDENCIES="
+    build+run:
+        dev-libs/popt
+        dev-libs/openssl
+        sys-apps/iproute2
+"
+
+BUGS_TO="nwmcsween+exherbo@gmail.com"
+
+src_install() {
+    default
+
+    edo rm -rf  "${IMAGE}"/etc/{rc.d,sysconfig}
+    newinitd "${FILES}"/keepalived.initd keepalived
+}
