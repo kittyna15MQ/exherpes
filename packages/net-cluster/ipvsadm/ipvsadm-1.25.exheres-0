@@ -1,0 +1,37 @@
+
+
+SUMMARY="A utility to manage connection state between lvs servers."
+HOMEPAGE="http://www.linuxvirtualserver.org/software/ipvs.html"
+DOWNLOADS="http://www.linuxvirtualserver.org/software/kernel-2.6/${PNV}.tar.gz"
+
+LICENCES="GPL-2"
+SLOT="0"
+PLATFORMS="~amd64"
+
+DEPENDENCIES="
+    build:
+    build+run:
+        sys-libs/ncurses
+        net-libs/libnl
+"
+
+BUGS_TO="nwmcsween+exherbo@gmail.com"
+
+DEFAULT_SRC_PREPARE_PATCHES=(
+    -p1 ${FILES}/ipvsadm-1.25-build.patch
+)
+
+# Note: stab ipvsadm author
+src_install() {
+    :
+
+    dosbin ipvsadm{,-save,-restore}
+    doman  ipvsadm{,-save,-restore}.8
+    dolib.a libipvs/libipvs.a
+    dolib.so libipvs/libipvs.so
+    insinto /usr/include/ipvs
+    newins libipvs/libipvs.h ipvs.h
+
+    newinitd "${FILES}"/ipvsadm.initd ipvsadm
+}
+
