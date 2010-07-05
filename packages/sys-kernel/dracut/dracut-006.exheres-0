@@ -28,5 +28,6 @@ DEFAULT_SRC_CONFIGURE_PARAMS=(
 src_install() {
     default
 
+    edo mv "${IMAGE}"/usr/etc "${IMAGE}"/
     keepdir /etc/dracut.conf.d
 }
