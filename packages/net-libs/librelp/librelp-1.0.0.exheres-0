@@ -1,0 +1,16 @@
+
+
+SUMMARY="A library for the relp protocol"
+DESCRIPTION="
+librelp is an easy to use library for the RELP protocol. RELP in turn provides reliable event
+logging over the network (and consequently RELP stands for Reliable Event Logging Protocol).
+"
+HOMEPAGE="http://www.librelp.com"
+DOWNLOADS="http://download.rsyslog.com/${PN}/${PNV}.tar.gz"
+
+LICENCES="GPL-3"
+SLOT="0"
+PLATFORMS="~amd64"
+
+BUGS_TO="nwmcsween+exherbo@gmail.com"
+

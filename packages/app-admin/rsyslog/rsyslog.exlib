@@ -1,6 +1,7 @@
 # Copyright 2009-2010 Nathan McSween
 # Distributed under the terms of the GNU General Public License v2
 
+SUMMARY="An advanced syslog replacment."
 DESCRIPTION="Rsyslog offers support for on-demand disk buffering, reliable 
 syslog over TCP, SSL, TLS, and RELP, writing to databases (MySQL, PostgreSQL, 
 Oracle, and many more), email alerting, fully configurable output formats 
@@ -15,8 +16,8 @@ LICENCES="GPL-3 LGPL-3"
 
 BUGS_TO="nwmcsween+exherbo@gmail.com"
 
-# TODO: Add kerberos, dbi, librelp and snmp options
-MYOPTIONS="gnutls mysql postgresql"
+# TODO: Add kerberos, dbi and snmp options
+MYOPTIONS="gnutls mysql postgres relp"
 
 DEPENDENCIES="
     build:
@@ -26,10 +27,17 @@ DEPENDENCIES="
         gnutls? ( dev-libs/gnutls )
         mysql? ( dev-db/mysql )
         postgresql? ( dev-db/postgresql )
+        relp? ( net-libs/librelp )
 "
 
-DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(gnutls mysql 'postgresql pgsql')
+DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
+    gnutls
+    mysql
+    'postgres pgsql'
+    relp
+)
 DEFAULT_SRC_CONFIGURE_PARAMS=(--disable-testbench)
+
 src_install() {
     default
 
@@ -38,5 +46,4 @@ src_install() {
     doins "${WORK}"/rsyslog.conf
     newconfd "${FILES}"/rsyslog.confd rsyslog
     newinitd "${FILES}"/rsyslog.initd rsyslog
-
 }
