@@ -16,6 +16,7 @@ DEPENDENCIES="
     build:
     build+run:
         app-shells/dash
+        sys-fs/parted
 "
 
 BUGS_TO="nwmcsween+exherbo@gmail.com"
