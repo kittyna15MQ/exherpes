@@ -9,6 +9,8 @@ PLATFORMS="~amd64"
 # TODO: Add options even though it's not really needed
 MYOPTIONS=""
 
+RESTRICT="test"
+
 DEPENDENCIES="
     build:
     build+run:
