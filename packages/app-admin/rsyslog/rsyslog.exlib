@@ -26,7 +26,7 @@ DEPENDENCIES="
     build+run:
         gnutls? ( dev-libs/gnutls )
         mysql? ( dev-db/mysql )
-        postgresql? ( dev-db/postgresql )
+        postgres? ( dev-db/postgresql )
         relp? ( net-libs/librelp )
 "
 
