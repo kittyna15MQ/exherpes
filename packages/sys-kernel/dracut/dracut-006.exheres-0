@@ -16,7 +16,7 @@ DEPENDENCIES="
     build:
     build+run:
         app-shells/dash
-        sys-fs/parted
+        sys-apps/util-linux-ng
 "
 
 BUGS_TO="nwmcsween+exherbo@gmail.com"
