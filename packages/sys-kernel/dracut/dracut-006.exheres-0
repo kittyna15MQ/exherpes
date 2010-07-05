@@ -12,6 +12,7 @@ MYOPTIONS=""
 DEPENDENCIES="
     build:
     build+run:
+        app-shells/dash
 "
 
 BUGS_TO="nwmcsween+exherbo@gmail.com"
