@@ -20,6 +20,11 @@ DEPENDENCIES="
 
 BUGS_TO="nwmcsween+exherbo@gmail.com"
 
+DEFAULT_SRC_CONFIGURE_PARAMS=(
+    --prefix=/usr
+    --sysconfdir=/etc
+)
+
 src_install() {
     default
 
