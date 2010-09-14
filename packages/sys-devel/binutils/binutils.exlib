@@ -1,0 +1,96 @@
+# Copyright 2007 Bryan Østergaard
+# Distributed under the terms of the GNU General Public License v2
+
+require multilib gnu alternatives
+
+export_exlib_phases src_configure src_compile src_test_expensive src_install
+
+SUMMARY="Collection of binary tools including ld and as"
+
+LICENCES="GPL-2"
+SLOT="0"
+MYOPTIONS="gold [[ description = [ Build gold, an experimental linker for ELF files. ] ]]"
+
+RESTRICT="test"
+
+DEPENDENCIES="
+    test-expensive:
+        dev-tcl/expect
+"
+
+DEFAULT_SRC_PREPARE_PATCHES=(
+    "${FILES}/76_all_use-new-ld-dtags.patch"
+)
+ECONF_SOURCE="${WORK}"
+DEFAULT_SRC_CONFIGURE_PARAMS=(--disable-werror)
+
+binutils_src_configure() {
+    edo mkdir "${WORKBASE}"/build-{gnu,gold}
+
+    edo cd "${WORKBASE}"/build-gnu
+        econf \
+            "${DEFAULT_SRC_CONFIGURE_PARAMS[@]}" \
+            --program-transform-name='s/ld/gnu-ld'
+    emake configure-host
+
+    if option gold; then
+        edo cd "${WORKBASE}"/build-gold
+        econf \
+            "${DEFAULT_SRC_CONFIGURE_PARAMS[@]}" \
+            --enable-gold \
+            --enable-plugins \
+            --enable-threads \
+            --program-transform-name='s/ld/gold-ld/'
+        emake configure-host
+    fi
+}
+
+binutils_src_compile() {
+    emake -C "${WORKBASE}/build-gnu"
+
+    if option gold; then
+        emake -C "${WORKBASE}/build-gold/bfd" headers
+        emake -C "${WORKBASE}/build-gold"
+    fi
+}
+
+binutils_src_test_expensive() {
+    emake -C "${WORKBASE}/build-gnu" check
+}
+
+binutils_src_install() {
+    emake -j1 -C "${WORKBASE}/build-gnu" DESTDIR="${IMAGE}" install
+    edo mv "${IMAGE}"/usr/${CHOST}/bin/{ld,gnu-ld}
+    edo rm "${IMAGE}"/usr/bin/gnu-ld
+
+    if option gold; then
+        emake -j1 -C "${WORKBASE}/build-gold/gold" DESTDIR="${IMAGE}" install
+        edo mv "${IMAGE}"/usr/${CHOST}/bin/{ld,gold-ld}
+        edo rm "${IMAGE}"/usr/bin/gold-ld
+    fi
+
+    local f target name
+    for f in "${IMAGE}"/usr/${CHOST}/bin/*; do
+        target=${f#${IMAGE}}
+        name=${f##*/}
+
+        if [[ ${name} == "gnu-ld"]]; then
+            continue
+        fi
+
+        dosym ${target} /usr/bin/${CHOST}-${name}
+        dosym ${target} /usr/bin/${name}
+    done
+
+    alternatives_for ld gnu 100 \
+        /usr/bin/ld /usr/${CHOST}/bin/gnu-ld \
+        /usr/bin/${CHOST}-ld /usr/${CHOST}/bin/gnu-ld \
+        /usr/${CHOST}/bin/ld /usr/${CHOST}/bin/gnu-ld
+    if option gold ; then
+        alternatives_for ld gold 10 \
+            /usr/bin/ld /usr/${CHOST}/bin/gold-ld \
+            /usr/bin/${CHOST}-ld /usr/${CHOST}/bin/gold-ld \
+            /usr/${CHOST}/bin/ld /usr/${CHOST}/bin/gold-ld
+    fi
+}
+

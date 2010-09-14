@@ -1,0 +1,77 @@
+===================================================================
+RCS file: /cvs/src/src/gold/object.cc,v
+retrieving revision 1.115
+retrieving revision 1.116
+diff -u -r1.115 -r1.116
+--- src/gold/object.cc	2010/01/07 07:14:29	1.115
++++ src/gold/object.cc	2010/01/07 18:42:03	1.116
+@@ -2524,4 +2524,48 @@
+ struct Relocate_info<64, true>;
+ #endif
+ 
++#ifdef HAVE_TARGET_32_LITTLE
++template
++void
++Xindex::initialize_symtab_xindex<32, false>(Object*, unsigned int);
++
++template
++void
++Xindex::read_symtab_xindex<32, false>(Object*, unsigned int,
++				      const unsigned char*);
++#endif
++
++#ifdef HAVE_TARGET_32_BIG
++template
++void
++Xindex::initialize_symtab_xindex<32, true>(Object*, unsigned int);
++
++template
++void
++Xindex::read_symtab_xindex<32, true>(Object*, unsigned int,
++				     const unsigned char*);
++#endif
++
++#ifdef HAVE_TARGET_64_LITTLE
++template
++void
++Xindex::initialize_symtab_xindex<64, false>(Object*, unsigned int);
++
++template
++void
++Xindex::read_symtab_xindex<64, false>(Object*, unsigned int,
++				      const unsigned char*);
++#endif
++
++#ifdef HAVE_TARGET_64_BIG
++template
++void
++Xindex::initialize_symtab_xindex<64, true>(Object*, unsigned int);
++
++template
++void
++Xindex::read_symtab_xindex<64, true>(Object*, unsigned int,
++				     const unsigned char*);
++#endif
++
+ } // End namespace gold.
+===================================================================
+RCS file: /cvs/src/src/gold/ChangeLog,v
+retrieving revision 1.434
+retrieving revision 1.435
+diff -u -r1.434 -r1.435
+--- src/gold/ChangeLog	2010/01/07 18:38:43	1.434
++++ src/gold/ChangeLog	2010/01/07 18:42:03	1.435
+@@ -28,6 +28,13 @@
+ 	* layout.cc (Layout::include_section): Remove .gnu_debuglink
+ 	sections.
+ 
++2010-01-07  Dmitry Gorbachev  <d.g.gorbachev@gmail.com>
++	    Ian Lance Taylor  <iant@google.com>
++
++	PR 11019
++	* object.cc: Instantiate Xindex::initialize_symtab_xindex and
++	Xindex::read_symtab_xindex.
++
+ 2009-11-06  Ian Lance Taylor  <iant@google.com>
+ 
+ 	Bring over from mainline:
