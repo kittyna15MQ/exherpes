@@ -27,5 +27,5 @@ src_install() {
     dodoc doc/run-generic doc/run-php doc/run-rails
 
     keepdir /var/run/spaw-fcgi
-    fperms 0700 /var/run/spawn-fcgi
+    chmod 700 /var/run/spawn-fcgi
 }
