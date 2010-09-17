@@ -74,7 +74,7 @@ binutils_src_install() {
         target=${f#${IMAGE}}
         name=${f##*/}
 
-        if [[ ${name} == "gnu-ld"]]; then
+        if [[ ${name} == "gnu-ld" ]]; then
             continue
         fi
 
