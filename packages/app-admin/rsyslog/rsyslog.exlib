@@ -43,7 +43,7 @@ src_install() {
 
     keepdir /var/spool/rsyslog
     insinto /etc/
-    doins "${WORK}"/rsyslog.conf
+    doins "${FILES}"/rsyslog.conf
     newconfd "${FILES}"/rsyslog.confd rsyslog
     newinitd "${FILES}"/rsyslog.initd rsyslog
 }
