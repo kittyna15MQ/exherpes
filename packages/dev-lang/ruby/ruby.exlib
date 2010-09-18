@@ -1,0 +1,139 @@
+# Copyright 2007, 2008 Richard Brown
+# Copyright 2009, 2010 Ingmar Vanhassel
+# Distributed under the terms of the GNU General Public License v2
+# Based in part upon 'ruby-1.8.6_p111.ebuild' from Gentoo, which is:
+#     Copyright 1999-2007 Gentoo Foundation
+
+require alternatives multilib
+
+export_exlib_phases src_configure src_test src_install
+
+MY_PNV="${PN}-$(ever replace 3 '-')"
+SLOT=$(ever range 1-2)
+
+SUMMARY="An object-oriented scripting language"
+DESCRIPTION="A dynamic, open source programming language with a focus on
+simplicity and productivity. It has an elegant syntax that is natural to
+read and easy to write."
+HOMEPAGE="http://www.ruby-lang.org/"
+DOWNLOADS="mirror://ruby/${SLOT}/${MY_PNV}.tar.bz2"
+
+MYOPTIONS="berkdb debug doc examples ipv6 gdbm"
+
+BUGS_TO="rbrown@exherbo.org"
+
+REMOTE_IDS="freshmeat:${PN}"
+
+tag_number=$(ever replace_all '_' ${PV})
+UPSTREAM_CHANGELOG="http://svn.ruby-lang.org/repos/ruby/tags/v${tag_number/p}/ChangeLog"
+UPSTREAM_DOCUMENTATION="${HOMEPAGE}en/documentation/"
+
+DEPENDENCIES="
+    build+run:
+        dev-libs/openssl[>=0.9.8g]
+        berkdb? ( sys-libs/db:= )
+        gdbm? ( sys-libs/gdbm )
+"
+
+DEFAULT_SRC_PREPARE_PATCHES=( "${FILES}"/${PNV} )
+DEFAULT_SRC_COMPILE_PARAMS=( EXTLDFLAGS="${LDFLAGS}" )
+
+WORK="${WORKBASE}"/${MY_PNV}
+
+ruby_src_configure() {
+    unset SOCKS_SERVER
+
+    # Yes, this does always call --enable-ipv6
+    myconf+=( --enable-ipv6 )
+    option !ipv6 && myconf+=( --with-lookup-order-hack=INET )
+
+    if ever at_least "1.9"; then
+        myconf+=(
+            --with-ruby-version=minor
+            --with-rubylibprefix=/usr/$(get_libdir)/ruby
+            --with-rubyhdrdir=/usr/include/ruby-${SLOT}
+        )
+    fi
+
+    # FIXME configure: WARNING: unrecognized options:
+    # --disable-socks, --disable-threads, --without-tk, --disable-debug, --without-dbm,
+    # --without-gdbm, --with-openssl, --with-lookup-order-hack=INET, --enable-ipv6
+    econf \
+        --program-suffix=${SLOT} \
+        --enable-shared \
+        --disable-socks \
+        --disable-threads \
+        --without-tk \
+        --with-openssl \
+        $(option_enable doc install-doc) \
+        $(option_enable debug) \
+        $(option_with berkdb dbm) \
+        $(option_with gdbm) \
+        "${myconf[@]}"
+}
+
+ruby_src_test() {
+    # FIXME Multithreaded test, takes a lifetime under sydbox
+    # test/ruby/test_thread.rb
+
+    # make test finally runs miniruby, set LD_LIBRARY_PATH so it can find libruby19.so.1.9
+    ever at_least 1.9 && export LD_LIBRARY_PATH="${WORK}${LD_LIBRARY_PATH:+:}${LD_LIBRARY_PATH}"
+    # TERM="dumb" for test_readline.rb
+    emake test TERM="dumb"
+}
+
+if ever at_least 1.9 ; then
+export_exlib_phases src_test_expensive
+
+ruby_src_test_expensive() {
+    # Extended tests need ruby installed, setting LD_LIBRARY_PATH partially
+    # works around this, but you'll still hit /usr/bin/ruby19: No such file or
+    # directory
+    if has_version --slash ${CATEGORY}/${PN}[=${PVR}] ; then
+        emake -j1 test-all TERM="dumb"
+    else
+        ewarn "ruby_src_test_expensive() needs ${CATEGORY}/${PN}[=${PVR}] installed, skipping src_test_expensive()"
+    fi
+}
+fi
+
+
+ruby_src_install() {
+    unset RUBYOPT
+    D_LIBDIR="${IMAGE}/usr/$(get_libdir)"
+    LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${D_LIBDIR}"
+    RUBYLIB="${WORK}:${D_LIBDIR}/ruby/${SLOT}"
+
+    for dir in $(find "${WORK}/ext" -type d) ; do
+        RUBYLIB="${RUBYLIB}:${dir}"
+    done
+
+    export LD_LIBRARY_PATH RUBYLIB
+
+    default
+
+    MINIRUBY=$(echo -e 'include Makefile\ngetminiruby:\n\t@echo $(MINIRUBY)'|make -f - getminiruby)
+    edo ${MINIRUBY} -e "p 'Hello world from miniruby.'"
+    keepdir "$(${MINIRUBY} -rrbconfig -e "print Config::CONFIG['vendorarchdir']")" \
+            "$(${MINIRUBY} -rrbconfig -e "print Config::CONFIG['sitearchdir']")"
+
+    if option examples; then
+        insinto /usr/share/doc/${PNVR}
+        doins -r sample
+    fi
+
+    edo pushd "${IMAGE}"
+    if ever at_least "1.9"; then
+        edo rm usr/bin/{gem,rake}${SLOT}
+        edo rm usr/share/man/man1/rake${SLOT}.1
+    fi
+    local src target alternatives=()
+    for src in usr/bin/*${SLOT} usr/share/man/man1/*${SLOT}.1; do
+        target=${src/${SLOT}}
+        alternatives+=( /${target} ${src##*/} )
+    done
+    alternatives_for ${PN} ${SLOT} ${SLOT} "${alternatives[@]}"
+    edo popd
+
+}
+

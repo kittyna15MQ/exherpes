@@ -30,7 +30,7 @@ binutils_src_configure() {
     edo cd "${WORKBASE}"/build-gnu
         econf \
             "${DEFAULT_SRC_CONFIGURE_PARAMS[@]}" \
-            --program-transform-name='s/ld/gnu-ld'
+            --program-transform-name='s/ld/gnu-ld/'
     emake configure-host
 
     if option gold; then
