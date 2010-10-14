@@ -1,4 +1,5 @@
-
+# Copyright 2010 Nathan McSween <nwmcsween+exherbo@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
 
 SUMMARY="libnetfilter_queue is a userspace library providing an API to packets that have been queued
 by the kernel packet filter"
