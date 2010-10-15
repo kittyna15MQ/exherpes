@@ -1,0 +1,98 @@
+# Copyright 2010 Nathan McSween <nwmcsween+exherbo@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
+myexparam eglibc_options[]
+exparam -v EGLIBC_OPTIONS eglibc_options[@]
+
+MY_PNV="${PN}-$(ever replace_all '_')"
+
+SCM_REPOSITORY="http://www.eglibc.org/svn"
+SCM_BRANCH="${MY_PNV}"
+
+require multilib scm-svn
+
+SUMMARY="EBLIBC library"
+HOMEPAGE="http://www.eglibc.org"
+
+LICENCES="|| ( GPL-3 GPL-2 ) || ( LGPL-3 LGPL-2.1 )"
+SLOT="0"
+MYOPTIONS="
+    stackguard [[ description = [ Stack-smashing protection ] ]]
+    eglibc_options: ${EGLIBC_OPTIONS[*]}
+"
+
+DEPENDENCIES="
+    build:
+        dev-lang/perl:*
+        sys-apps/gawk
+        sys-apps/sed
+        sys-apps/texinfo
+        sys-kernel/linux-headers
+    run:
+        sys-libs/timezone-data
+"
+
+BUGS_TO="nwmcsween+exherbo@gmail.com"
+
+DEFAULT_SRC_CONFIGURE_PARAMS=(
+    --with-headers=/usr/include
+    --with-oldest-abi=2.7 # This matches with kernel 2.6.22
+    --with-add-ons
+    --enable-kernel=2.6.22
+    --disable-profile
+    'stackguard --enable-stackguard-randomization'
+)
+DEFAULT_SRC_INSTALL_PARAMS=( install_root="${IMAGE}" )
+
+ECONF_SOURCE="${WORKBASE}/${PNV}/libc"
+WORK="${TEMP}/build"
+
+eglibc_src_unpack() {
+    edo mkdir "${WORK}"
+    unpack "${ARCHIVES}"
+    edo mv "${WORK}/ports" "${WORK}/libc"
+}
+
+eglibc_src_prepare() {
+    default
+
+    edo rm -rf "${WORK}/option-groups.def"
+    for opt in ${EGLIBC_OPTIONS[@]}; do
+        if optionq eglibc_options:${s}; then 
+            echo "OPTION_${opt}" = y >> "${WORK}/option-groups.def"
+	else
+	    echo "OPTION_${opt}" = n >> "${WORK}/option-groups.def"
+	fi
+    done
+
+}
+
+eglibc_src_install() {
+    export LANGUAGE=C LC_ALL=C
+    default
+
+    # localedef fails if /usr/lib/locale does not exist
+    keepdir /usr/$(get_libdir)/locale
+
+    # Don't install /etc/{ld.so.cache,localtime}
+    for file in "${IMAGE}/etc/ld.so.cache" "${IMAGE}/etc/localtime" ; do
+        if [[ -f ${file} ]] ; then
+            edo rm "${file}"
+        fi
+    done
+    # Don't install bundled timezone info
+    edo rm -r "${IMAGE}/usr/share/zoneinfo"
+
+    cd "${WORKBASE}/${PNV}"
+    insinto /etc
+    doins nscd/nscd.conf nss/nsswitch.conf posix/gai.conf
+}
+
+eglibc_pkg_postinst() {
+    mkdir -p "${ROOT}usr/$(get_libdir)/locale" || eerror "failed to create /usr/$(get_libdir)/locale"
+
+    for lang in en_US en_GB ; do
+        I18NPATH="${ROOT}usr/share/i18n" \
+            nonfatal edo "${ROOT}usr/bin/localedef" --prefix="${ROOT}" -i ${lang} -f UTF-8 ${lang}.UTF-8
+    done
+}

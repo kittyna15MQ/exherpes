@@ -1,0 +1,20 @@
+
+require eglibc [ \
+    eglibc_options=[ \
+        crypt crypt_ufc eglibc_advanced_inet6 eglibc_backtrace \
+	eglibc_big_macros eglibc_bsd eglibc_catgets eglibc_charsets \
+	eglibc_cxx_tests eglibc_db_aliases eglibc_envz eglibc_fcvt \
+	eglibc_fmtmsg eglibc_fstab eglibc_ftraverse eglibc_getlogin \
+	eglibc_idn eglibc_inet eglibc_inet_anl eglibc_libm eglibc_libm_big \
+	eglibc_locale_code eglibc_locales eglibc_memusage eglibc_nis \
+        eglibc_nsswitch eglibc_rcmd eglibc_rtld_debug eglibc_spawn \
+	eglibc_streams eglibc_sunrpc eglibc_utmp eglibc_utmpx eglibc_wordexp \
+	posix_c_lang_wide_char posix_regexp posix_regexp_glibc \
+	posix_wide_char_device_io \
+    ] \
+]
+
+PLATFORMS="~amd64 ~arm ~ia64 ~ppc64 ~x86"
+
+# Sandbox causes numerous test failures
+RESTRICT='test'
