@@ -20,8 +20,17 @@ require scm-svn eglibc [ \
 ]
 
 PLATFORMS="~amd64 ~arm ~ia64 ~ppc64 ~x86"
-
-# Sandbox causes numerous test failures
+MYOPTIONS="
+    eglibc_options:
+        ( crypt_ufc ) [[ requires = [ eglibc_options: crypt ]  ]]
+	( eglibc_advanced_inet6 eglibc_inet_anl eglibc_nis eglibc_rcmd eglibc_sunrpc ) [[ requires = [ eglibc_options: eglibc_inet ] ]]
+	( eglibc_catgets ) [[ requires = [ eglibc_options: eglibc_locale_code ] ]]
+	( eglibc_cxx_tests ) [[ requires = [ eglibc_options: posix_wide_char_device_io eglibc_libm ] ]]
+	( eglibc_getlogin ) [[ requires = [ eglibc_options: eglibc_utmp ] ]]
+	( eglibc_locale_code posix_wide_char_device_io ) [[ requires = [ eglibc_options: posix_c_lang_wide_char ] ]]
+	( eglibc_nis ) [[ requires = [ eglibc_options: eglibc_sunrpc ] ]]
+	( eglibc_utmpx ) [[ requires = [ eglibc_options: eglibc_utmp ] ]]
+"
 RESTRICT='test'
 
 src_unpack() {
