@@ -1,5 +1,10 @@
 
-require eglibc [ \
+MY_PNV="${PN}-$(ever replace_all '_')" 
+ 
+SCM_REPOSITORY="http://www.eglibc.org/svn" 
+SCM_BRANCH="${MY_PNV}" 
+
+require scm-svn eglibc [ \
     eglibc_options=[ \
         crypt crypt_ufc eglibc_advanced_inet6 eglibc_backtrace \
 	eglibc_big_macros eglibc_bsd eglibc_catgets eglibc_charsets \
@@ -18,3 +23,8 @@ PLATFORMS="~amd64 ~arm ~ia64 ~ppc64 ~x86"
 
 # Sandbox causes numerous test failures
 RESTRICT='test'
+
+src_unpack() {
+    scm_src_unpack
+    eglibc_src_unpack
+}
