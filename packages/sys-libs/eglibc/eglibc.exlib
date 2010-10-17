@@ -33,7 +33,6 @@ BUGS_TO="nwmcsween+exherbo@gmail.com"
 
 DEFAULT_SRC_CONFIGURE_PARAMS=(
     --with-headers=/usr/include
-    --enable-oldest-abi=2.7 # This matches with kernel 2.6.22
     --with-add-ons
     --enable-kernel=2.6.22
 )
