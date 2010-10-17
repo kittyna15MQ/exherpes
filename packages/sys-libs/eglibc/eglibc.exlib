@@ -74,7 +74,7 @@ eglibc_src_install() {
     # Don't install bundled timezone info
     edo rm -r "${IMAGE}/usr/share/zoneinfo"
 
-    cd "${WORKBASE}/${PNV}"
+    cd "${WORKBASE}/${PNV}/libc"
     insinto /etc
     doins nscd/nscd.conf nss/nsswitch.conf posix/gai.conf
 }
