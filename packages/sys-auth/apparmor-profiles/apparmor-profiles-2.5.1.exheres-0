@@ -1,0 +1,21 @@
+# Copyright 2010 Nathan McSween
+# Distributed under the terms of the GNU General Public License v2
+
+require launchpad [ project=apparmor ]
+
+SUMMARY="Apparmor profiles"
+
+LICENCES="GPL-2"
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
+DEPENDENCIES=""
+
+BUGS_TO="nwmcsween+exherbo@gmail.com"
+
+WORK="${WORK}/profiles"
+
+src_configure() {
+    :
+}
