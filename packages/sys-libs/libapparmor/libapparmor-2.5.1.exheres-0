@@ -1,0 +1,22 @@
+# Copyright 2010 
+# Distributed under the terms of the GNU General Public License v2
+
+SUMMARY="Apparmor library"
+
+SLOT="0"
+PLATFORMS=""
+MYOPTIONS="perl python ruby"
+
+DEPENDENCIES="
+    build+run:
+        perl? ( dev-lang/perl )
+        python? ( dev-lang/python )
+        ruby? ( dev-lang/ruby )
+"
+
+BUGS_TO="nwmcsween+exherbo@gmail.com"
+
+WORK="${WORK}/libraries/libapparmor"
+
+DEFAULT_SRC_CONFIGURE_OPTION_WITHS=( perl ruby python )
+

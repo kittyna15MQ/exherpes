@@ -33,7 +33,7 @@ UPSTREAM_DOCUMENTATION="http://wiki.nginx.org/Main"
 
 nginx_src_configure() {
 # Bypass nginx configure.
-cat <<EOF >> "${WORK}"/auto/options
+cat  "${WORK}"/auto/options
 NGX_PREFIX=/usr NGX_SBIN_PATH=/usr/sbin/nginx
 NGX_CONF_PATH=/etc/nginx/nginx.conf
 NGX_ERROR_LOG_PATH=/var/log/nginx/error.log

@@ -1,0 +1,18 @@
+# Copyright 2010 Nathan McSween 
+# Distributed under the terms of the GNU General Public License v2
+
+require perl-module [ module_author=mgrabnar ]
+
+SUMMARY="Reading from continously updated files"
+
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
+DEPENDENCIES=""
+
+RESTRICT="test"
+
+src_test_expensive() {
+    emake -j1 test
+}

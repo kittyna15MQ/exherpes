@@ -1,0 +1,13 @@
+# Copyright 2010 
+# Distributed under the terms of the GNU General Public License v2
+
+require perl-module [ author=jstowe ]
+
+SUMMARY="Simple terminal control"
+
+SLOT="0"
+PLATFORMS="~amd64"
+MYOPTIONS=""
+
+DEPENDENCIES=""
+
