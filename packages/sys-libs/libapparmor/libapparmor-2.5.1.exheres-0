@@ -4,8 +4,12 @@
 SUMMARY="Apparmor library"
 
 SLOT="0"
-PLATFORMS=""
-MYOPTIONS="perl python ruby"
+PLATFORMS="~amd64"
+MYOPTIONS="
+    perl
+    python
+    ruby
+"
 
 DEPENDENCIES="
     build+run:

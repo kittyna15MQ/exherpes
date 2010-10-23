@@ -1,0 +1,13 @@
+# Copyright 2010 Nathan McSween
+# Distributed under the terms of the GNU General Public License v2
+
+SUMMARY="Apparmor changehat module for pam"
+
+LICENCES="GPL-2"
+SLOT="0"
+PLATFORMS="~amd64"
+
+DEPENDENCIES=""
+
+BUGS_TO="nwmcsween+exherbo@gmail.com"
+
