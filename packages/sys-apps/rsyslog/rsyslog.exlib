@@ -1,4 +1,4 @@
-# Copyright 2009-2010 Nathan McSween
+# Copyright 2009-2010 Nathan McSween <nwmcsween+exherbo@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 SUMMARY="An advanced syslog replacment."
@@ -36,7 +36,7 @@ DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
     'postgres pgsql'
     relp
 )
-DEFAULT_SRC_CONFIGURE_PARAMS=(--disable-testbench)
+DEFAULT_SRC_CONFIGURE_PARAMS=( --disable-testbench )
 
 src_install() {
     default
@@ -47,3 +47,4 @@ src_install() {
     newconfd "${FILES}"/rsyslog.confd rsyslog
     newinitd "${FILES}"/rsyslog.initd rsyslog
 }
+

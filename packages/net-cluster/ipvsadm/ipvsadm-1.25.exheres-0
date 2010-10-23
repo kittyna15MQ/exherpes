@@ -1,4 +1,5 @@
-
+# Copyright 2010 Nathan McSween <nwmcsween+exherbo@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
 
 SUMMARY="A utility to manage connection state between lvs servers."
 HOMEPAGE="http://www.linuxvirtualserver.org/software/ipvs.html"
@@ -9,7 +10,6 @@ SLOT="0"
 PLATFORMS="~amd64"
 
 DEPENDENCIES="
-    build:
     build+run:
         sys-libs/ncurses
         net-libs/libnl

@@ -20,7 +20,7 @@ MYOPTIONS="
 DEPENDENCIES="
     build:
         dev-lang/perl:*
-	dev-util/gperf
+        dev-util/gperf
         sys-apps/gawk
         sys-apps/sed
         sys-apps/texinfo
@@ -36,8 +36,10 @@ DEFAULT_SRC_CONFIGURE_PARAMS=(
     --with-add-ons
     --enable-kernel=2.6.22
 )
-DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=('stackguard stackguard-randomization')
-DEFAULT_SRC_INSTALL_PARAMS=(install_root="${IMAGE}")
+DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
+    'stackguard stackguard-randomization'
+)
+DEFAULT_SRC_INSTALL_PARAMS=( install_root="${IMAGE}" )
 
 ECONF_SOURCE="${WORKBASE}/${PNV}/libc"
 WORK="${TEMP}/build"
@@ -51,9 +53,9 @@ eglibc_src_prepare() {
     for opt in ${EGLIBC_OPTIONS[@]}; do
         if optionq eglibc_options:${opt}; then 
             echo "OPTION_${opt}" = y >> "${WORK}/option-groups.config"
-	else
-	    echo "OPTION_${opt}" = n >> "${WORK}/option-groups.config"
-	fi
+        else
+            echo "OPTION_${opt}" = n >> "${WORK}/option-groups.config"
+        fi
     done
 }
 
@@ -86,3 +88,4 @@ eglibc_pkg_postinst() {
             nonfatal edo "${ROOT}usr/bin/localedef" --prefix="${ROOT}" -i ${lang} -f UTF-8 ${lang}.UTF-8
     done
 }
+

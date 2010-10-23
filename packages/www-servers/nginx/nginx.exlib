@@ -1,7 +1,5 @@
 # Copyright 2010 Nathan McSween
 # Distributed under the terms of the GNU General Public License v2
-# Based on apache.exlib::arbor
-#   Copyright 2009 Ingmar Vanhassel
 
 export_exlib_phases src_configure src_install
 myexparam nginx_modules[]
@@ -44,7 +42,6 @@ NGX_LOCK_PATH=/var/lock/nginx.lock
 NGX_USER=nginx NGX_GROUP=nginx
 EVENT_AIO=YES
 NGX_FILE_AIO=YES
-NGX_CPU_CACHE_LINE=64
 HTTP=YES
 NGX_HTTP_LOG_PATH=/var/log/nginx/access.log
 NGX_HTTP_CLIENT_TEMP_PATH=/var/tmp/nginx/client

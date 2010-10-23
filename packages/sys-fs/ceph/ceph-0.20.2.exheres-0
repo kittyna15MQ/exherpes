@@ -1,4 +1,5 @@
-
+# Copyright 2009-2010 Nathan McSween <nwmcsween+exherbo@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
 
 SUMMARY="Userland tools for the ceph file system"
 
@@ -11,8 +12,8 @@ PLATFORMS="~amd64"
 MYOPTIONS="" # fuse -> libfuse
 
 DEPENDENCIES="
-    build:  dev-libs/boost
-    build+run:
+    build:
+        dev-libs/boost
 "
 
 BUGS_TO="nwmcsween+exherbo@gmail.com"

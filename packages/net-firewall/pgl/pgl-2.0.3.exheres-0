@@ -11,14 +11,16 @@ SLOT="0"
 PLATFORMS="~amd64"
 
 DEPENDENCIES="
-    build:
     build+run:
+        dbus? ( sys-apps/dbus )
         net-libs/libnetfilter_queue
 "
 
 BUGS_TO="nwmcsween+exherbo@gmail.com"
 
 src_configure(){
-    edo sed -i -e '/DBUS/d' Makefile && echo 'DBUS ?= no' >> Makefile
     :
+
+    option dbus || edo sed -i -e '/DBUS/d' Makefile && echo 'DBUS ?= no' >> Makefile
 }
+

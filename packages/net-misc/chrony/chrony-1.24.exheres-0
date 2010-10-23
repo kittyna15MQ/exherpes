@@ -1,3 +1,6 @@
+# Copyright 2009-2010 Nathan McSween <nwmcsween+exherbo@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
+
 SUMMARY="Chrony is a pair of programs which are used to maintain the 
 accuracy of the system clock on a computer."
 HOMEPAGE="http://chrony.tuxfamily.org"
@@ -35,3 +38,4 @@ src_install() {
     insinto /etc
     newins "${FILES}"/chrony.conf chrony.conf
 }
+

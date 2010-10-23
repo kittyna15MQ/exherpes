@@ -1,4 +1,5 @@
-
+# Copyright 2009-2010 Nathan McSween <nwmcsween+exherbo@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
 
 SUMMARY="Entropy Broker is an infrastructure for distributing cryptographically 
 secure random numbers (entropy data) from one or more servers to one or more clients."
@@ -11,7 +12,6 @@ PLATFORMS="~amd64"
 MYOPTIONS=""
 
 DEPENDENCIES="
-    build:
     build+run:
         sys-sound/alsa-lib
 "
@@ -33,3 +33,4 @@ src_install() {
     insinto /etc
     doins entropybroker.conf
 }
+

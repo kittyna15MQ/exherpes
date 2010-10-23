@@ -1,4 +1,4 @@
-# Copyright 2008 Nathan McSween
+# Copyright 2009-2010 Nathan McSween <nwmcsween+exherbo@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 require sourceforge [ pv="$(ever delete _)" ]
@@ -16,11 +16,13 @@ DEPENDENCIES="
     build+run:
         net-firewall/iptables
 "
-WORK="${WORKBASE}/${PN}-$(ever delete _ ${PVR})"
-
 
 BUGS_TO="nwmcsween+exherbo@gmail.com"
 
+WORK="${WORKBASE}/${PN}-$(ever delete _ ${PVR})"
+
 DEFAULT_SRC_CONFIGURE_PARAMS=(
---with-firewall=iptables
+    --with-firewall=iptables
 )
+
+

@@ -1,4 +1,4 @@
-# Copyright 2009-2010 Nathan McSween
+# Copyright 2009-2010 Nathan McSween <nwmcsween+exherbo@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
 
 SUMMARY="A wrapper around iptables that streamlines management of rulesets."
@@ -27,3 +27,4 @@ src_install() {
     keepdir /var/lib/shorewall
     newinitd "${FILES}"/shorewall.initd shorewall
 }
+

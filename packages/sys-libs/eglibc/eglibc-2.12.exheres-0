@@ -1,18 +1,20 @@
+# Copyright 2009-2010 Nathan McSween <nwmcsween+exherbo@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
 
-MY_PNV="${PN}-$(ever replace_all '_')" 
- 
-SCM_REPOSITORY="http://www.eglibc.org/svn" 
-SCM_BRANCH="${MY_PNV}" 
+MY_PNV="${PN}-$(ever replace_all '_')"
+
+SCM_REPOSITORY="http://www.eglibc.org/svn"
+SCM_BRANCH="${MY_PNV}"
 
 require scm-svn eglibc [ \
     eglibc_options=[ \
-        crypt crypt_ufc eglibc_advanced_inet6 eglibc_backtrace \
+    crypt crypt_ufc eglibc_advanced_inet6 eglibc_backtrace \
 	eglibc_big_macros eglibc_bsd eglibc_catgets eglibc_charsets \
 	eglibc_cxx_tests eglibc_db_aliases eglibc_envz eglibc_fcvt \
 	eglibc_fmtmsg eglibc_fstab eglibc_ftraverse eglibc_getlogin \
 	eglibc_idn eglibc_inet eglibc_inet_anl eglibc_libm eglibc_libm_big \
 	eglibc_locale_code eglibc_locales eglibc_memusage eglibc_nis \
-        eglibc_nsswitch eglibc_rcmd eglibc_rtld_debug eglibc_spawn \
+    eglibc_nsswitch eglibc_rcmd eglibc_rtld_debug eglibc_spawn \
 	eglibc_streams eglibc_sunrpc eglibc_utmp eglibc_utmpx eglibc_wordexp \
 	posix_c_lang_wide_char posix_regexp posix_regexp_glibc \
 	posix_wide_char_device_io \
@@ -22,7 +24,7 @@ require scm-svn eglibc [ \
 PLATFORMS="~amd64 ~arm ~ia64 ~ppc64 ~x86"
 MYOPTIONS="
     eglibc_options:
-        ( crypt_ufc ) [[ requires = [ eglibc_options: crypt ]  ]]
+    ( crypt_ufc ) [[ requires = [ eglibc_options: crypt ]  ]]
 	( eglibc_advanced_inet6 eglibc_inet_anl eglibc_nis eglibc_rcmd eglibc_sunrpc ) [[ requires = [ eglibc_options: eglibc_inet ] ]]
 	( eglibc_catgets ) [[ requires = [ eglibc_options: eglibc_locale_code ] ]]
 	( eglibc_cxx_tests ) [[ requires = [ eglibc_options: posix_wide_char_device_io eglibc_libm ] ]]
@@ -31,9 +33,11 @@ MYOPTIONS="
 	( eglibc_nis ) [[ requires = [ eglibc_options: eglibc_sunrpc ] ]]
 	( eglibc_utmpx ) [[ requires = [ eglibc_options: eglibc_utmp ] ]]
 "
+
 RESTRICT='test'
 
 src_unpack() {
     scm_src_unpack
     eglibc_src_unpack
 }
+

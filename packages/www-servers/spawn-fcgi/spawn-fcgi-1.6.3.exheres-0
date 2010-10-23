@@ -1,7 +1,5 @@
-# Copyright 2009 Nathan McSween
+# Copyright 2009-2010 Nathan McSween <nwmcsween+exherbo@gmail.com>
 # Distributed under the terms of the GNU General Public License v2
-# Based on spawn-fcgi which is: 
-#   Copyright 1999-2009 Gentoo Foundation
 
 SUMMARY="A fastcgi process manager"
 
@@ -29,3 +27,4 @@ src_install() {
     keepdir /var/run/spaw-fcgi
     chmod 700 /var/run/spawn-fcgi
 }
+

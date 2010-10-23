@@ -1,4 +1,5 @@
-
+# Copyright 2010 Nathan McSween <nwmcsween+exherbo@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
 
 SUMMARY="A userspace daemon for LVS cluster nodes healthchecks and LVS directors failover."
 HOMEPAGE="http://www.keepalived.org"

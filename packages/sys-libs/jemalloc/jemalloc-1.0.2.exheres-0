@@ -1,4 +1,5 @@
-
+# Copyright 2009-2010 Nathan McSween <nwmcsween+exherbo@gmail.com>
+# Distributed under the terms of the GNU General Public License v2
 
 SUMMARY="Jemalloc is a general-purpose scalable concurrent malloc(3) implementation."
 HOMEPAGE="http://www.canonware.com/jemalloc"
@@ -13,3 +14,4 @@ BUGS_TO="nwmcsween+exherbo@gmail.com"
 DEFAULT_SRC_CONFIGURE_PARAMS=(
     --libdir="/lib"
 )
+
