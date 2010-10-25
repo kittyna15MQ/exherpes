@@ -32,9 +32,14 @@ DEPENDENCIES="
 BUGS_TO="nwmcsween+exherbo@gmail.com"
 
 DEFAULT_SRC_CONFIGURE_PARAMS=(
-    --with-headers=/usr/include
-    --with-add-ons
+    --enable-add-ons=nptl,libidn,ports
+    --enable-bind-now
     --enable-kernel=2.6.22
+    --with-headers=/usr/include
+    --without-cvs
+    --without-gd
+    --with-tls
+    --with-__thread
 )
 DEFAULT_SRC_CONFIGURE_OPTION_ENABLES=(
     'stackguard stackguard-randomization'

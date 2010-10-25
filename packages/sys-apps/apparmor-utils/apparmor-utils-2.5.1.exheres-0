@@ -39,6 +39,6 @@ src_install() {
 
     if option vim-syntax; then
         insinto /usr/share/vim/vmfiles/syntax
-        doins "${WORK}/utils/apparmor.vim"
+        doins apparmor.vim
     fi
 }
