@@ -41,3 +41,9 @@ src_unpack() {
     eglibc_src_unpack
 }
 
+src_prepare() {
+    edo cd "${ECONF_SOURCE}"
+    expatch -p0 "${FILES}"/${PNV}-make-3.82.patch
+    eglibc_src_prepare
+}
+

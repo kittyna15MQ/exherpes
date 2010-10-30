@@ -56,7 +56,7 @@ eglibc_src_unpack() {
 eglibc_src_prepare() {
     edo mv "${WORKBASE}/${PNV}/ports" "${WORKBASE}/${PNV}/libc"
     for opt in ${EGLIBC_OPTIONS[@]}; do
-        if optionq eglibc_options:${opt}; then 
+        if optionq eglibc_options:${opt}; then
             echo "OPTION_${opt}" = y >> "${WORK}/option-groups.config"
         else
             echo "OPTION_${opt}" = n >> "${WORK}/option-groups.config"
