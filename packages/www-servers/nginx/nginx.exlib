@@ -20,9 +20,10 @@ MYOPTIONS="
 
 DEPENDENCIES="
     build+run:
+        dev-libs/pcre
+    run:
         user/nginx
         group/nginx
-        dev-libs/pcre
 "
 
 BUGS_TO="nwmcsween+exherbo@gmail.com"
