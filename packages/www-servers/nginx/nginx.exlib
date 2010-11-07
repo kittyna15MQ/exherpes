@@ -14,6 +14,7 @@ DOWNLOADS="http://sysoev.ru/nginx/${PNV}.tar.gz"
 LICENCES="BSD-2"
 SLOT="0"
 MYOPTIONS="
+    baselayout
     nginx_modules: ${NGINX_MODULES[*]}
 "
 
@@ -71,7 +72,7 @@ nginx_src_install() {
     keepdir /srv/localhost/exherbo/"${CATEGORY}"/"${PN}" /var/log/"${PN}" \
             /var/tmp/nginx/{client,proxy,fastcgi}
     chown nginx:nginx /srv/localhost/exherbo/"${CATEGORY}"/"${PN}"
-    newinitd "${FILES}"/nginx.init nginx
+    option baselayout && newinitd "${FILES}"/nginx.init nginx
     insinto /etc/nginx
     doins "${FILES}"/nginx.conf
 }
