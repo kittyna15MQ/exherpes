@@ -3,8 +3,6 @@
 
 require binutils
 
-
-DOWNLOADS="ftp://sourceware.org/pub/binutils/snapshots/${PNV}.tar.bz2"
 PLATFORMS="~amd64 ~arm ~ia64 ~ppc64 ~x86"
 
 DEFAULT_SRC_PREPARE_PATCHES+=(
